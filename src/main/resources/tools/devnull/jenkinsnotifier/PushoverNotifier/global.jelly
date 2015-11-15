@@ -1,0 +1,11 @@
+<j:jelly xmlns:j="jelly:core"
+         xmlns:f="/lib/form">
+
+  <f:section title="Pushover Configuration" name="pushover">
+    <f:entry title="Application Token" field="appToken"
+             description="The application token from Pushover">
+      <f:textbox field="appToken"/>
+    </f:entry>
+  </f:section>
+
+</j:jelly>
