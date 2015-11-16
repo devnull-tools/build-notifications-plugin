@@ -1,26 +1,26 @@
-= Jenkins Notifier
+# Jenkins Notifier
 
 This is a plugin to enable build notifications through [Pushover][] or [Telegram][].
 
-== How to build
+## How to build
 
 Just execute a `mvn package` and upload the *hpi* package to your Jenkins instance.
 
-== How to configure
+## How to configure
 
 There are global and specific options:
 
-=== Global options
+### Global options
 
 Global options should be configured in Jenkins System Configuration. You'll need to set
 an Application Token for Pushover and/or a Bot Token for Telegram.
 
-=== Specific options
+### Specific options
 
 There are per-job configurations. You need to add a post-build step (there is a separated
 step for each notification service) and configure the target to receive notifications.
 
-== How you'll be notified
+## How you'll be notified
 
 Notifications will include:
 
@@ -36,6 +36,9 @@ priority for the other cases.
 Note that Telegram doesn't have a way to set priority for messages (and is understandable
 because Telegram is a chat platform and not a notification platform like Pushover).
 
-== How to contribute
+## How to contribute
 
 Open an issue, spread the project, use it, fork it...
+
+[pushover]: <http://pushover.net/>
+[telegram]: <https://telegram.org/>
