@@ -107,7 +107,7 @@ public class TelegramNotifier extends Notifier {
 
     @Override
     public String getDisplayName() {
-      return "Telegram";
+      return "Telegram Notification";
     }
 
   }

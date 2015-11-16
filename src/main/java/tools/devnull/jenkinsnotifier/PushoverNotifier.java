@@ -119,7 +119,7 @@ public class PushoverNotifier extends Notifier {
 
     @Override
     public String getDisplayName() {
-      return "Pushover";
+      return "Pushover Notification";
     }
 
   }
