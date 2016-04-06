@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.2
+## 1.1.0
 
 - Option to not send notifications in case of success (issue #1)
 
