@@ -45,6 +45,7 @@ public class BuildNotifier {
   private final AbstractBuild build;
   private final Result result;
   private final String baseUrl;
+  private final boolean sendIfSuccess;
 
   /**
    * Constructs a new BuildNotifier based on the given objects
@@ -52,26 +53,35 @@ public class BuildNotifier {
    * @param message the message to populate and send
    * @param build   the target build
    */
-  public BuildNotifier(Message message, AbstractBuild build) {
+  public BuildNotifier(Message message, AbstractBuild build, boolean sendIfSuccess) {
     this.message = message;
     this.build = build;
     this.result = build.getResult();
     this.baseUrl = JenkinsLocationConfiguration.get().getUrl();
+    this.sendIfSuccess = sendIfSuccess;
   }
 
   /**
    * Sends the notification through the given message object.
    */
   public void sendNotification() {
-    setPriority();
-    setContent();
-    setTitle();
-    setUrl();
-    sendMessage();
+    if (result.ordinal == 0) {
+      if (sendIfSuccess) {
+        sendMessage();
+      }
+    } else {
+      sendMessage();
+    }
   }
 
   private void sendMessage() {
     LOGGER.info("Sending push notification...");
+
+    setPriority();
+    setContent();
+    setTitle();
+    setUrl();
+
     message.send();
   }
 

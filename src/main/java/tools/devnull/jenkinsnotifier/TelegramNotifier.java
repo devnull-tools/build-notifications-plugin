@@ -50,14 +50,26 @@ import java.io.IOException;
 public class TelegramNotifier extends Notifier {
 
   private final String chatId;
+  private final boolean sendIfSuccess;
 
+  /**
+   * Creates a new notifier based on the given parameters
+   *
+   * @param chatId        the telegram chat id
+   * @param sendIfSuccess if the notification should be sent if the build succeed
+   */
   @DataBoundConstructor
-  public TelegramNotifier(String chatId) {
+  public TelegramNotifier(String chatId, boolean sendIfSuccess) {
     this.chatId = chatId;
+    this.sendIfSuccess = sendIfSuccess;
   }
 
   public String getChatId() {
     return chatId;
+  }
+
+  public boolean isSendIfSuccess() {
+    return sendIfSuccess;
   }
 
   @Override
@@ -71,7 +83,7 @@ public class TelegramNotifier extends Notifier {
     TelegramDescriptor descriptor = (TelegramDescriptor) Jenkins.getInstance()
         .getDescriptor(TelegramNotifier.class);
     Message message = new TelegramMessage(descriptor.getBotToken(), chatId);
-    BuildNotifier notifier = new BuildNotifier(message, build);
+    BuildNotifier notifier = new BuildNotifier(message, build, sendIfSuccess);
     notifier.sendNotification();
     return true;
   }

@@ -51,17 +51,20 @@ public class PushoverNotifier extends Notifier {
 
   private final String userToken;
   private final String device;
+  private final boolean sendIfSuccess;
 
   /**
    * Creates a new notifier based on the given parameters
    *
-   * @param userToken the pushover target token
-   * @param device    the optional device to send the message
+   * @param userToken     the pushover target token
+   * @param device        the optional device to send the message
+   * @param sendIfSuccess if the notification should be sent if the build succeed
    */
   @DataBoundConstructor
-  public PushoverNotifier(String userToken, String device) {
+  public PushoverNotifier(String userToken, String device, boolean sendIfSuccess) {
     this.userToken = userToken;
     this.device = device;
+    this.sendIfSuccess = sendIfSuccess;
   }
 
   public String getUserToken() {
@@ -70,6 +73,10 @@ public class PushoverNotifier extends Notifier {
 
   public String getDevice() {
     return device;
+  }
+
+  public boolean isSendIfSuccess() {
+    return sendIfSuccess;
   }
 
   @Override
@@ -83,7 +90,7 @@ public class PushoverNotifier extends Notifier {
     PushoverDescriptor descriptor = (PushoverDescriptor) Jenkins.getInstance()
         .getDescriptor(PushoverNotifier.class);
     Message message = new PushoverMessage(userToken, descriptor.appToken, device);
-    BuildNotifier notifier = new BuildNotifier(message, build);
+    BuildNotifier notifier = new BuildNotifier(message, build, sendIfSuccess);
     notifier.sendNotification();
     return true;
   }
