@@ -11,11 +11,11 @@
     <relativePath/>
   </parent>
   <groupId>tools.devnull</groupId>
-  <artifactId>jenkins-notifier</artifactId>
+  <artifactId>build-notification</artifactId>
   <version>1.1.0</version>
   <packaging>hpi</packaging>
 
-  <name>Jenkins Notifier Plugin</name>
+  <name>Jenkins Build Notification Plugin</name>
   <description>A plugin that allows notifications after a build run</description>
   <licenses>
     <license>
