@@ -24,7 +24,7 @@
  * SOFTWARE   OR   THE   USE   OR   OTHER   DEALINGS  IN  THE  SOFTWARE.
  */
 
-package tools.devnull.jenkinsnotifier;
+package tools.devnull.jenkins.plugins.buildnotifications;
 
 import hudson.model.AbstractBuild;
 import hudson.model.Result;

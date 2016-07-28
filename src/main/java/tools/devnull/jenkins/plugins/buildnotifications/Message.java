@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2015 Marcelo "Ataxexe" Guimarães <ataxexe@devnull.tools>
+ * Copyright (c) 2016 Marcelo "Ataxexe" Guimarães <ataxexe@devnull.tools>
  *
  * ----------------------------------------------------------------------
  * Permission  is hereby granted, free of charge, to any person obtaining
@@ -24,7 +24,7 @@
  * SOFTWARE   OR   THE   USE   OR   OTHER   DEALINGS  IN  THE  SOFTWARE.
  */
 
-package tools.devnull.jenkinsnotifier;
+package tools.devnull.jenkins.plugins.buildnotifications;
 
 /**
  * Interface that defines a message that can be sent.

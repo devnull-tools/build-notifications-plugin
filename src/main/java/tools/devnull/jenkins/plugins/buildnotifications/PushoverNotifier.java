@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2015 Marcelo "Ataxexe" Guimarães <ataxexe@devnull.tools>
+ * Copyright (c) 2016 Marcelo "Ataxexe" Guimarães <ataxexe@devnull.tools>
  *
  * ----------------------------------------------------------------------
  * Permission  is hereby granted, free of charge, to any person obtaining
@@ -24,7 +24,7 @@
  * SOFTWARE   OR   THE   USE   OR   OTHER   DEALINGS  IN  THE  SOFTWARE.
  */
 
-package tools.devnull.jenkinsnotifier;
+package tools.devnull.jenkins.plugins.buildnotifications;
 
 import hudson.Extension;
 import hudson.Launcher;
@@ -43,29 +43,36 @@ import org.kohsuke.stapler.StaplerRequest;
 import java.io.IOException;
 
 /**
- * A notifier that uses Telegram to delivery messages
+ * A notifier that uses Pushover to delivery messages
  *
  * @author Ataxexe
  */
-public class TelegramNotifier extends Notifier {
+public class PushoverNotifier extends Notifier {
 
-  private final String chatId;
+  private final String userToken;
+  private final String device;
   private final boolean sendIfSuccess;
 
   /**
    * Creates a new notifier based on the given parameters
    *
-   * @param chatId        the telegram chat id
+   * @param userToken     the pushover target token
+   * @param device        the optional device to send the message
    * @param sendIfSuccess if the notification should be sent if the build succeed
    */
   @DataBoundConstructor
-  public TelegramNotifier(String chatId, boolean sendIfSuccess) {
-    this.chatId = chatId;
+  public PushoverNotifier(String userToken, String device, boolean sendIfSuccess) {
+    this.userToken = userToken;
+    this.device = device;
     this.sendIfSuccess = sendIfSuccess;
   }
 
-  public String getChatId() {
-    return chatId;
+  public String getUserToken() {
+    return userToken;
+  }
+
+  public String getDevice() {
+    return device;
   }
 
   public boolean isSendIfSuccess() {
@@ -80,34 +87,34 @@ public class TelegramNotifier extends Notifier {
   @Override
   public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener)
       throws InterruptedException, IOException {
-    TelegramDescriptor descriptor = (TelegramDescriptor) Jenkins.getInstance()
-        .getDescriptor(TelegramNotifier.class);
-    Message message = new TelegramMessage(descriptor.getBotToken(), chatId);
+    PushoverDescriptor descriptor = (PushoverDescriptor) Jenkins.getInstance()
+        .getDescriptor(PushoverNotifier.class);
+    Message message = new PushoverMessage(userToken, descriptor.appToken, device);
     BuildNotifier notifier = new BuildNotifier(message, build, sendIfSuccess);
     notifier.sendNotification();
     return true;
   }
 
   /**
-   * The descriptor for the TelegramNotifier plugin
+   * The descriptor for the PushoverNotifier plugin
    */
   @Extension
-  public static class TelegramDescriptor extends BuildStepDescriptor<Publisher> {
+  public static class PushoverDescriptor extends BuildStepDescriptor<Publisher> {
 
-    private String botToken;
+    private String appToken;
 
-    public TelegramDescriptor() {
+    public PushoverDescriptor() {
       load();
     }
 
-    public String getBotToken() {
-      return botToken;
+    public String getAppToken() {
+      return appToken;
     }
 
     @Override
     public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
-      JSONObject config = json.getJSONObject("telegram");
-      this.botToken = config.getString("botToken");
+      JSONObject config = json.getJSONObject("pushover");
+      this.appToken = config.getString("appToken");
       save();
       return true;
     }
@@ -119,7 +126,7 @@ public class TelegramNotifier extends Notifier {
 
     @Override
     public String getDisplayName() {
-      return "Telegram Notification";
+      return "Pushover Notification";
     }
 
   }
