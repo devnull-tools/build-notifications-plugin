@@ -22,10 +22,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="build-notifications" />
         <module name="jenkins-notifier" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="build-notifications" target="1.6" />
       <module name="jenkins-notifier" target="1.6" />
     </bytecodeTargetLevel>
   </component>

@@ -1,6 +1,6 @@
-# Jenkins Notifier
+# Jenkins Build Notifications Plugin
 
-This is a plugin to enable build notifications through [Pushover][] or [Telegram][].
+This is a plugin to enable build notifications through [Pushover][], [Telegram][] or even [Boteco][].
 
 ## How to build
 
@@ -42,3 +42,4 @@ Open an issue, spread the project, use it, fork it...
 
 [pushover]: <http://pushover.net/>
 [telegram]: <https://telegram.org/>
+[boteco]: <https://github.com/devnull-tools/boteco>
