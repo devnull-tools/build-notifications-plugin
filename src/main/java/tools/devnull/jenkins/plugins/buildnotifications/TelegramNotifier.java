@@ -49,23 +49,23 @@ import java.io.IOException;
  */
 public class TelegramNotifier extends Notifier {
 
-  private final String chatId;
+  private final String chatIds;
   private final boolean sendIfSuccess;
 
   /**
    * Creates a new notifier based on the given parameters
    *
-   * @param chatId        the telegram chat id
+   * @param chatIds       the coma separated telegram chat ids
    * @param sendIfSuccess if the notification should be sent if the build succeed
    */
   @DataBoundConstructor
-  public TelegramNotifier(String chatId, boolean sendIfSuccess) {
-    this.chatId = chatId;
+  public TelegramNotifier(String chatIds, boolean sendIfSuccess) {
+    this.chatIds = chatIds;
     this.sendIfSuccess = sendIfSuccess;
   }
 
-  public String getChatId() {
-    return chatId;
+  public String getChatIds() {
+    return chatIds;
   }
 
   public boolean isSendIfSuccess() {
@@ -82,9 +82,12 @@ public class TelegramNotifier extends Notifier {
       throws InterruptedException, IOException {
     TelegramDescriptor descriptor = (TelegramDescriptor) Jenkins.getInstance()
         .getDescriptor(TelegramNotifier.class);
-    Message message = new TelegramMessage(descriptor.getBotToken(), chatId);
-    BuildNotifier notifier = new BuildNotifier(message, build, sendIfSuccess);
-    notifier.sendNotification();
+    String[] ids = chatIds.split("\\s*,\\s*");
+    for (String id : ids) {
+      Message message = new TelegramMessage(descriptor.getBotToken(), id);
+      BuildNotifier notifier = new BuildNotifier(message, build, sendIfSuccess);
+      notifier.sendNotification();
+    }
     return true;
   }
 

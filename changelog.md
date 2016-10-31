@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+
+- Added support for multiple chat ids in Telegram (issue #8)
+
 ## 1.2.0
 
 - Added support for broadcasting notifications through `boteco`
