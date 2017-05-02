@@ -27,6 +27,7 @@ Notifications will include:
 - The project's name
 - The build number
 - The build result
+- The build's changes
 - The build link
 
 If you are receiving notifications through Pushover, the notification will be sent with

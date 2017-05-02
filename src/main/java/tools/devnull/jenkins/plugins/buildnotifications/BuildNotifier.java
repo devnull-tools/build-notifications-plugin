@@ -28,8 +28,10 @@ package tools.devnull.jenkins.plugins.buildnotifications;
 
 import hudson.model.AbstractBuild;
 import hudson.model.Result;
+import hudson.scm.ChangeLogSet;
 import jenkins.model.JenkinsLocationConfiguration;
 
+import java.util.Iterator;
 import java.util.logging.Logger;
 
 /**
@@ -90,7 +92,21 @@ public class BuildNotifier {
   }
 
   private void setContent() {
-    message.setContent(result.toString());
+    if(build.getChangeSet().getItems().length == 0){
+      message.setContent(result.toString());
+    } else {
+      StringBuilder changes = new StringBuilder();
+
+      for (Iterator<? extends ChangeLogSet.Entry> i = build.getChangeSet().iterator(); i.hasNext();) {
+        ChangeLogSet.Entry change = i.next();
+        changes.append("\n");
+        changes.append(change.getMsg());
+        changes.append(" - ");
+        changes.append(change.getAuthor());
+      }
+
+      message.setContent(String.format("%s%n%s", result.toString(), changes.toString()));
+    }
   }
 
   private void setTitle() {

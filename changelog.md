@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+- Updated notification with the changes made to the current jenkins build
+
 ## 1.2.0
 
 - Added support for broadcasting notifications through `boteco`
