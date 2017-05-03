@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+
+- Updated code for new `boteco` versions
+
 ## 1.2.1
 
 - Updated notification with the changes made to the current jenkins build
