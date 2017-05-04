@@ -45,6 +45,7 @@ public class BuildNotifier {
 
   private final Message message;
   private final AbstractBuild build;
+  private final BuildStatus status;
   private final Result result;
   private final String baseUrl;
   private final boolean sendIfSuccess;
@@ -58,6 +59,7 @@ public class BuildNotifier {
   public BuildNotifier(Message message, AbstractBuild build, boolean sendIfSuccess) {
     this.message = message;
     this.build = build;
+    this.status = BuildStatus.of(build);
     this.result = build.getResult();
     this.baseUrl = JenkinsLocationConfiguration.get().getUrl();
     this.sendIfSuccess = sendIfSuccess;
@@ -67,7 +69,7 @@ public class BuildNotifier {
    * Sends the notification through the given message object.
    */
   public void sendNotification() {
-    if (result.ordinal == 0) {
+    if (status == BuildStatus.SUCCESSFUL) {
       if (sendIfSuccess) {
         sendMessage();
       }
@@ -92,12 +94,12 @@ public class BuildNotifier {
   }
 
   private void setContent() {
-    if(build.getChangeSet().getItems().length == 0){
+    if (build.getChangeSet().getItems().length == 0) {
       message.setContent(result.toString());
     } else {
       StringBuilder changes = new StringBuilder();
 
-      for (Iterator<? extends ChangeLogSet.Entry> i = build.getChangeSet().iterator(); i.hasNext();) {
+      for (Iterator<? extends ChangeLogSet.Entry> i = build.getChangeSet().iterator(); i.hasNext(); ) {
         ChangeLogSet.Entry change = i.next();
         changes.append("\n");
         changes.append(change.getMsg());
@@ -111,19 +113,24 @@ public class BuildNotifier {
 
   private void setTitle() {
     message.setTitle(String.format(
-        "Build #%d of %s",
+        "%s - Build #%d of %s",
+        status.tag(),
         build.getNumber(),
         build.getProject().getName()
     ));
   }
 
   private void setPriority() {
-    switch (result.ordinal) {
-      case 0: //SUCCESS
-        message.lowPriority();
+    switch (status) {
+      case FIXED:
+        message.normalPriority();
         break;
-      case 2: //FAILURE
+      case BROKEN:
+      case STILL_BROKEN:
         message.highPriority();
+        break;
+      case SUCCESSFUL:
+        message.lowPriority();
         break;
     }
   }

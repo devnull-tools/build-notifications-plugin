@@ -83,6 +83,11 @@ public class TelegramMessage implements Message {
   }
 
   @Override
+  public void normalPriority() {
+    // Not possible with Telegram
+  }
+
+  @Override
   public void lowPriority() {
     // Not possible with Telegram
   }

@@ -11,7 +11,7 @@
   </parent>
   <groupId>tools.devnull</groupId>
   <artifactId>build-notifications</artifactId>
-  <version>1.2.2</version>
+  <version>1.2.3</version>
   <packaging>hpi</packaging>
 
   <name>Jenkins Build Notification Plugin</name>
@@ -22,6 +22,43 @@
       <url>http://opensource.org/licenses/MIT</url>
     </license>
   </licenses>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <kodo.version>3.3.0</kodo.version>
+    <mockito.version>2.7.13</mockito.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>tools.devnull</groupId>
+      <artifactId>kodo</artifactId>
+      <version>${kodo.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
   <repositories>
     <repository>
       <id>repo.jenkins-ci.org</id>

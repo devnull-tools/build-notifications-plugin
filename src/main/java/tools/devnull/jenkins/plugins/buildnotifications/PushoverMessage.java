@@ -98,6 +98,11 @@ public class PushoverMessage implements Message {
     this.priority = 1;
   }
 
+  @Override
+  public void normalPriority() {
+    this.priority = 0;
+  }
+
   public void lowPriority() {
     this.priority = -1;
   }
