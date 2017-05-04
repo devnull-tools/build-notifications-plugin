@@ -66,6 +66,11 @@ public interface Message {
   void lowPriority();
 
   /**
+   * Indicates that this is a normal priority message
+   */
+  void normalPriority();
+
+  /**
    * Sends the message
    */
   void send();

@@ -79,6 +79,11 @@ public class BotecoMessage implements Message {
   }
 
   @Override
+  public void normalPriority() {
+    this.priority = "normal";
+  }
+
+  @Override
   public void lowPriority() {
     this.priority = "low";
   }
