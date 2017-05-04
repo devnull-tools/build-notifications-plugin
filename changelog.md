@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.3
+
+- Allowed different types of notifications (#9)
+
 ## 1.2.2
 
 - Updated code for new `boteco` versions
