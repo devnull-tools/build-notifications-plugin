@@ -1,6 +1,7 @@
 package tools.devnull.jenkins.plugins.buildnotifications;
 
 import hudson.model.AbstractBuild;
+import hudson.model.Result;
 
 /**
  * Enumeration of the possible build status for notification purposes.
@@ -24,15 +25,15 @@ public enum BuildStatus {
 
   public static BuildStatus of(AbstractBuild build) {
     AbstractBuild previousBuild = build.getPreviousBuild();
-    if (build.getResult().ordinal == 0) {
+    if (build.getResult().ordinal == Result.SUCCESS.ordinal) {
       if (previousBuild != null) {
-        return previousBuild.getResult().ordinal == 0 ? SUCCESSFUL : FIXED;
+        return previousBuild.getResult().ordinal == Result.SUCCESS.ordinal ? SUCCESSFUL : FIXED;
       } else {
         return SUCCESSFUL;
       }
     } else {
       if (previousBuild != null) {
-        return previousBuild.getResult().ordinal != 0 ? STILL_BROKEN : BROKEN;
+        return previousBuild.getResult().ordinal != Result.SUCCESS.ordinal ? STILL_BROKEN : BROKEN;
       } else {
         return BROKEN;
       }
