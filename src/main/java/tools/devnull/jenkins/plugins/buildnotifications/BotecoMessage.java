@@ -95,7 +95,7 @@ public class BotecoMessage implements Message {
     post.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     Map<String, String> values = new HashMap<String, String>();
     values.put("title", title);
-    values.put("content", content);
+    values.put("text", content);
     values.put("url", url);
     values.put("priority", priority);
     try {
