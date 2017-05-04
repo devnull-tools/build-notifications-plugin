@@ -82,7 +82,11 @@ public class BotecoNotifier extends Notifier {
       throws InterruptedException, IOException {
     BotecoDescriptor descriptor = (BotecoDescriptor) Jenkins.getInstance()
         .getDescriptor(BotecoNotifier.class);
-    Message message = new BotecoMessage(eventId, descriptor.endpoint);
+    Message message = new BotecoMessage(
+        String.format("%s.%s",
+            eventId,
+            BuildStatus.of(build).name().toLowerCase().replaceAll("_", "-")),
+        descriptor.endpoint);
     BuildNotifier notifier = new BuildNotifier(message, build, sendIfSuccess);
     notifier.sendNotification();
     return true;
