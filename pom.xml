@@ -6,22 +6,38 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.580.1</version>
+    <version>2.28</version>
     <relativePath/>
   </parent>
+
   <groupId>tools.devnull</groupId>
   <artifactId>build-notifications</artifactId>
-  <version>1.2.3</version>
+  <version>1.3.0</version>
   <packaging>hpi</packaging>
 
   <name>Jenkins Build Notification Plugin</name>
-  <description>A plugin that allows notifications after a build run</description>
+  <description>A plugin that sends notifications after a build run</description>
+
   <licenses>
     <license>
       <name>MIT License</name>
-      <url>http://opensource.org/licenses/MIT</url>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
     </license>
   </licenses>
+
+  <developers>
+    <developer>
+      <name>Marcelo "Ataxexe" Guimarães</name>
+      <email>ataxexe@devnull.tools</email>
+      <organization>/dev/null > tools</organization>
+      <organizationUrl>https://github.com/devnull-tools</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git@github.com:devnull-tools/jenkins-notifier.git</connection>
+    <url>https://github.com/devnull-tools/jenkins-notifier</url>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

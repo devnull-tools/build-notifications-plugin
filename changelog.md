@@ -1,8 +1,12 @@
 # Changelog
 
+## 1.3.0
+
+- Allowed to specify notification type per chat ID (issue #10)
+
 ## 1.2.3
 
-- Allowed different types of notifications (#9)
+- Allowed different types of notifications (issue #9)
 
 ## 1.2.2
 

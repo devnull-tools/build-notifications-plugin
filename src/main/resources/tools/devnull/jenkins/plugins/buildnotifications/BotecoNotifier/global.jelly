@@ -3,7 +3,7 @@
 
   <f:section title="Boteco Configuration" name="boteco">
     <f:entry title="Event Broadcast Endpoint" field="endpoint"
-             description="The endpoint to broadcast events through boteco">
+             description="The endpoint to broadcast events through boteco (e.g. http://localhost:8181/cxf/boteco/api/events)">
       <f:textbox field="endpoint"/>
     </f:entry>
   </f:section>

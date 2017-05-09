@@ -32,64 +32,42 @@ import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.BuildListener;
 import hudson.tasks.BuildStepDescriptor;
-import hudson.tasks.BuildStepMonitor;
-import hudson.tasks.Notifier;
 import hudson.tasks.Publisher;
-import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
-
-import java.io.IOException;
 
 /**
  * A notifier that uses Boteco to delivery messages
  *
  * @author Ataxexe
  */
-public class BotecoNotifier extends Notifier {
-
-  private final String eventId;
-  private final boolean sendIfSuccess;
+public class BotecoNotifier extends BaseNotifier {
 
   /**
    * Creates a new notifier based on the given parameters
    *
-   * @param eventId       the eventId to broadcast
-   * @param sendIfSuccess if the notification should be sent if the build succeed
+   * @param globalTarget      the target for all notifications
+   * @param successfulTarget  the target for build success notifications
+   * @param brokenTarget      the target for broken build notifications
+   * @param stillBrokenTarget the target for still broken build notifications
+   * @param fixedTarget       the target for fixed build notifications
+   * @param sendIfSuccess     if the notification should be sent if the build succeed
    */
   @DataBoundConstructor
-  public BotecoNotifier(String eventId, boolean sendIfSuccess) {
-    this.eventId = eventId;
-    this.sendIfSuccess = sendIfSuccess;
-  }
-
-  public boolean isSendIfSuccess() {
-    return sendIfSuccess;
-  }
-
-  public String getEventId() {
-    return eventId;
+  public BotecoNotifier(String globalTarget,
+                        String successfulTarget,
+                        String brokenTarget,
+                        String stillBrokenTarget,
+                        String fixedTarget,
+                        boolean sendIfSuccess) {
+    super(globalTarget, successfulTarget, brokenTarget, stillBrokenTarget, fixedTarget, sendIfSuccess);
   }
 
   @Override
-  public BuildStepMonitor getRequiredMonitorService() {
-    return BuildStepMonitor.BUILD;
-  }
-
-  @Override
-  public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener)
-      throws InterruptedException, IOException {
-    BotecoDescriptor descriptor = (BotecoDescriptor) Jenkins.getInstance()
-        .getDescriptor(BotecoNotifier.class);
-    Message message = new BotecoMessage(
-        String.format("%s.%s",
-            eventId,
-            BuildStatus.of(build).name().toLowerCase().replaceAll("_", "-")),
-        descriptor.endpoint);
-    BuildNotifier notifier = new BuildNotifier(message, build, sendIfSuccess);
-    notifier.sendNotification();
-    return true;
+  protected Message createMessage(String target, AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) {
+    BotecoDescriptor descriptor = (BotecoDescriptor) getDescriptor();
+    return new BotecoMessage(target, descriptor.endpoint);
   }
 
   /**
