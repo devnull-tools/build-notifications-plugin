@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.0
+
+- Adjusted project's settings in order to add it to the Jenkins Plugin Repository
+  - Depend on a LTS version of jenkins (#15)
+  - Rename project on GitHub (#14)
+
 ## 1.3.0
 
 - Allowed to specify notification type per chat ID (issue #10)
