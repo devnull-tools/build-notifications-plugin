@@ -43,6 +43,7 @@
 
     <kodo.version>3.3.0</kodo.version>
     <mockito.version>2.7.13</mockito.version>
+    <jenkins.version>2.46.2</jenkins.version>
   </properties>
 
   <dependencies>
