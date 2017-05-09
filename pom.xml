@@ -7,15 +7,14 @@
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
     <version>2.28</version>
-    <relativePath/>
   </parent>
 
   <groupId>tools.devnull</groupId>
-  <artifactId>build-notifications</artifactId>
-  <version>1.3.0</version>
+  <artifactId>build-notifications-plugin</artifactId>
+  <version>1.4.0-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
-  <name>Jenkins Build Notification Plugin</name>
+  <name>Build Notifications Plugin</name>
   <description>A plugin that sends notifications after a build run</description>
 
   <licenses>
@@ -35,8 +34,8 @@
   </developers>
 
   <scm>
-    <connection>scm:git:git@github.com:devnull-tools/jenkins-notifier.git</connection>
-    <url>https://github.com/devnull-tools/jenkins-notifier</url>
+    <connection>scm:git:git@github.com:devnull-tools/build-notifications-plugin.git</connection>
+    <url>https://github.com/devnull-tools/build-notifications-plugin</url>
   </scm>
 
   <properties>
