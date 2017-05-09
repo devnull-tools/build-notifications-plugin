@@ -10,7 +10,7 @@
   </parent>
 
   <groupId>tools.devnull</groupId>
-  <artifactId>build-notifications-plugin</artifactId>
+  <artifactId>build-notifications</artifactId>
   <version>1.4.0-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
