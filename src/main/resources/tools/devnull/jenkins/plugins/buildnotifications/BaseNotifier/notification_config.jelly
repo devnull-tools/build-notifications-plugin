@@ -20,22 +20,22 @@
     <f:section title="Per Status Notification Options">
 
       <f:entry title="Success Notification" field="successfulTarget"
-               description="The target for build success notifications">
+               description="The target for sending notifications regarding successful builds">
         <f:textbox/>
       </f:entry>
 
       <f:entry title="Broken Notification" field="brokenTarget"
-               description="The target for broken build notifications">
+               description="The target for sending notifications regarding broken builds">
         <f:textbox/>
       </f:entry>
 
       <f:entry title="Still Broken Notification" field="stillBrokenTarget"
-               description="The target for still broken build notifications">
+               description="The target for sending notifications regarding subsequent broken builds">
         <f:textbox/>
       </f:entry>
 
       <f:entry title="Fixed Notification" field="fixedTarget"
-               description="The target for fixed build notifications">
+               description="The target for sending notifications regarding builds that fixed a broken one">
         <f:textbox/>
       </f:entry>
 
