@@ -73,15 +73,15 @@ public enum BuildStatus {
    */
   public static BuildStatus of(AbstractBuild build) {
     AbstractBuild previousBuild = build.getPreviousBuild();
-    if (build.getResult().ordinal == Result.SUCCESS.ordinal) {
+    if (build.getResult() == Result.SUCCESS) {
       if (previousBuild != null) {
-        return previousBuild.getResult().ordinal == Result.SUCCESS.ordinal ? SUCCESSFUL : FIXED;
+        return previousBuild.getResult() == Result.SUCCESS ? SUCCESSFUL : FIXED;
       } else {
         return SUCCESSFUL;
       }
     } else {
       if (previousBuild != null) {
-        return previousBuild.getResult().ordinal != Result.SUCCESS.ordinal ? STILL_BROKEN : BROKEN;
+        return previousBuild.getResult() != Result.SUCCESS ? STILL_BROKEN : BROKEN;
       } else {
         return BROKEN;
       }
