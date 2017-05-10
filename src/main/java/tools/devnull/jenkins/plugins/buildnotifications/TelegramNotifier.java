@@ -45,14 +45,7 @@ import org.kohsuke.stapler.StaplerRequest;
 public class TelegramNotifier extends BaseNotifier {
 
   /**
-   * Creates a new notifier based on the given parameters
-   *
-   * @param globalTarget      the target for all notifications
-   * @param successfulTarget  the target for build success notifications
-   * @param brokenTarget      the target for broken build notifications
-   * @param stillBrokenTarget the target for still broken build notifications
-   * @param fixedTarget       the target for fixed build notifications
-   * @param sendIfSuccess     if the notification should be sent if the build succeed
+   * @see BaseNotifier#BaseNotifier(String, String, String, String, String, boolean)
    */
   @DataBoundConstructor
   public TelegramNotifier(String globalTarget,

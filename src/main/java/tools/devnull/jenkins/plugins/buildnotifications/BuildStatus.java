@@ -32,12 +32,26 @@ import hudson.model.Result;
 
 /**
  * Enumeration of the possible build status for notification purposes.
+ *
+ * @author Ataxexe
  */
 public enum BuildStatus {
 
+  /**
+   * Represents a build that has failed
+   */
   BROKEN("Broken"),
+  /**
+   * Represents a build that has failed after a failed build
+   */
   STILL_BROKEN("Still Broken"),
+  /**
+   * Represents a build that has succeeded after a failed build
+   */
   FIXED("Fixed"),
+  /**
+   * Represents a build that has succeeded (if there is a previous build, it has been succeeded too)
+   */
   SUCCESSFUL("Successful");
 
   private final String tag;
@@ -50,6 +64,13 @@ public enum BuildStatus {
     return this.tag;
   }
 
+  /**
+   * Returns the {@code BuildStatus} that represents the given build. If the given build has a previous build, it
+   * must be finished.
+   *
+   * @param build the build to analyze
+   * @return the status that represents the given build
+   */
   public static BuildStatus of(AbstractBuild build) {
     AbstractBuild previousBuild = build.getPreviousBuild();
     if (build.getResult().ordinal == Result.SUCCESS.ordinal) {

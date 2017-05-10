@@ -37,7 +37,9 @@ import jenkins.model.JenkinsLocationConfiguration;
 import java.io.IOException;
 
 /**
- * A base class for all notifiers
+ * A base class for all notifiers.
+ *
+ * @author Ataxexe
  */
 public abstract class BaseNotifier extends Notifier {
 
@@ -138,6 +140,10 @@ public abstract class BaseNotifier extends Notifier {
     return true;
   }
 
+  /**
+   * Creates the message for notifying users about the build. The parameters are the same passed to
+   * {@link #perform(AbstractBuild, Launcher, BuildListener)} plus the {@code target} of the message.
+   */
   protected abstract Message createMessage(String target,
                                            AbstractBuild<?, ?> build,
                                            Launcher launcher,
