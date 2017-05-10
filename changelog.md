@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.2
+
+- Changed parent in order to upload the plugin
+
 ## 1.4.1
 
 - Descriptions for targets are now more clear
