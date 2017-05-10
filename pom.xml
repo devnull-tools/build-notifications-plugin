@@ -35,7 +35,9 @@
 
   <scm>
     <connection>scm:git:git@github.com:devnull-tools/build-notifications-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:devnull-tools/build-notifications-plugin.git</developerConnection>
     <url>https://github.com/devnull-tools/build-notifications-plugin</url>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>
