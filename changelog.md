@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.1
+
+- Descriptions for targets are now more clear
+- Improved code documentation
+
 ## 1.4.0
 
 - Adjusted project's settings in order to add it to the Jenkins Plugin Repository
