@@ -1,5 +1,13 @@
 # Jenkins Build Notifications Plugin
 
+---
+
+**This plugin is now maintained at the Jenkins GitHub Organization**
+
+https://github.com/jenkinsci/build-notifications-plugin
+
+---
+
 This is a plugin to enable build notifications through [Pushover][], [Telegram][] or even [Boteco][].
 
 ## How to build
