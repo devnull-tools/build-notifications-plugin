@@ -313,8 +313,8 @@ public class BaseNotifierTest {
     }
 
     @Override
-    protected String getBaseUrl() {
-      return null;
+    protected BuildNotifier createNotifier(AbstractBuild<?, ?> build, Message message) {
+      return new BuildNotifier(message, build, "");
     }
 
     @Override

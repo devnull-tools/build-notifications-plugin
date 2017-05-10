@@ -32,7 +32,7 @@ import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
-import jenkins.model.JenkinsLocationConfiguration;
+import jenkins.model.Jenkins;
 
 import java.io.IOException;
 
@@ -99,10 +99,6 @@ public abstract class BaseNotifier extends Notifier {
     return sendIfSuccess;
   }
 
-  protected String getBaseUrl() {
-    return JenkinsLocationConfiguration.get().getUrl();
-  }
-
   @Override
   public BuildStepMonitor getRequiredMonitorService() {
     return BuildStepMonitor.BUILD;
@@ -134,10 +130,14 @@ public abstract class BaseNotifier extends Notifier {
     }
     if (target != null && !target.isEmpty()) {
       Message message = createMessage(target, build, launcher, listener);
-      BuildNotifier notifier = new BuildNotifier(message, build, getBaseUrl());
+      BuildNotifier notifier = createNotifier(build, message);
       notifier.sendNotification();
     }
     return true;
+  }
+
+  protected BuildNotifier createNotifier(AbstractBuild<?, ?> build, Message message) {
+    return new BuildNotifier(message, build, Jenkins.getInstance().getRootUrl());
   }
 
   /**
