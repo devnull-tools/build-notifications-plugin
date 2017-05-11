@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.3
+
+- Add support for non latin symbols in changelog (JENKINS-44220)
+
 ## 1.4.2
 
 - Changed parent in order to upload the plugin
