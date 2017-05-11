@@ -1,0 +1,45 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core"
+         xmlns:f="/lib/form">
+
+  <f:section title="Global Notification Options">
+
+    <f:entry title="Global Notification" field="globalTarget"
+             description="The target for global notifications">
+      <f:textbox/>
+    </f:entry>
+
+    <f:entry title="Send if success?" field="sendIfSuccess"
+             description="Sends the notification if the build succeed (only applies for global notifications)">
+      <f:checkbox/>
+    </f:entry>
+
+  </f:section>
+
+  <f:advanced>
+    <f:section title="Per Status Notification Options">
+
+      <f:entry title="Success Notification" field="successfulTarget"
+               description="The target for sending notifications regarding successful builds">
+        <f:textbox/>
+      </f:entry>
+
+      <f:entry title="Broken Notification" field="brokenTarget"
+               description="The target for sending notifications regarding broken builds">
+        <f:textbox/>
+      </f:entry>
+
+      <f:entry title="Still Broken Notification" field="stillBrokenTarget"
+               description="The target for sending notifications regarding subsequent broken builds">
+        <f:textbox/>
+      </f:entry>
+
+      <f:entry title="Fixed Notification" field="fixedTarget"
+               description="The target for sending notifications regarding builds that fixed a broken one">
+        <f:textbox/>
+      </f:entry>
+
+    </f:section>
+  </f:advanced>
+
+</j:jelly>

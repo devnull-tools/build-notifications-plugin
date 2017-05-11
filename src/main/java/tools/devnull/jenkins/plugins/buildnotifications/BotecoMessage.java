@@ -1,7 +1,8 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Marcelo "Ataxexe" Guimarães <ataxexe@devnull.tools>
+ * Copyright (c) 2016-2017 Marcelo "Ataxexe" Guimarães
+ * <ataxexe@devnull.tools>
  *
  * ----------------------------------------------------------------------
  * Permission  is hereby granted, free of charge, to any person obtaining
@@ -23,7 +24,6 @@
  * TORT  OR  OTHERWISE,  ARISING  FROM,  OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE   OR   THE   USE   OR   OTHER   DEALINGS  IN  THE  SOFTWARE.
  */
-
 package tools.devnull.jenkins.plugins.buildnotifications;
 
 import net.sf.json.JSONObject;

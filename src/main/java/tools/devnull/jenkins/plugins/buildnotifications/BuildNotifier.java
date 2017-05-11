@@ -1,7 +1,8 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2015 Marcelo "Ataxexe" Guimarães <ataxexe@devnull.tools>
+ * Copyright (c) 2016-2017 Marcelo "Ataxexe" Guimarães
+ * <ataxexe@devnull.tools>
  *
  * ----------------------------------------------------------------------
  * Permission  is hereby granted, free of charge, to any person obtaining
@@ -23,13 +24,11 @@
  * TORT  OR  OTHERWISE,  ARISING  FROM,  OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE   OR   THE   USE   OR   OTHER   DEALINGS  IN  THE  SOFTWARE.
  */
-
 package tools.devnull.jenkins.plugins.buildnotifications;
 
 import hudson.model.AbstractBuild;
 import hudson.model.Result;
 import hudson.scm.ChangeLogSet;
-import jenkins.model.JenkinsLocationConfiguration;
 
 import java.util.Iterator;
 import java.util.logging.Logger;
@@ -48,7 +47,6 @@ public class BuildNotifier {
   private final BuildStatus status;
   private final Result result;
   private final String baseUrl;
-  private final boolean sendIfSuccess;
 
   /**
    * Constructs a new BuildNotifier based on the given objects
@@ -56,30 +54,19 @@ public class BuildNotifier {
    * @param message the message to populate and send
    * @param build   the target build
    */
-  public BuildNotifier(Message message, AbstractBuild build, boolean sendIfSuccess) {
+  public BuildNotifier(Message message, AbstractBuild build, String baseUrl) {
     this.message = message;
     this.build = build;
     this.status = BuildStatus.of(build);
     this.result = build.getResult();
-    this.baseUrl = JenkinsLocationConfiguration.get().getUrl();
-    this.sendIfSuccess = sendIfSuccess;
+    this.baseUrl = baseUrl;
   }
 
   /**
    * Sends the notification through the given message object.
    */
   public void sendNotification() {
-    if (status == BuildStatus.SUCCESSFUL) {
-      if (sendIfSuccess) {
-        sendMessage();
-      }
-    } else {
-      sendMessage();
-    }
-  }
-
-  private void sendMessage() {
-    LOGGER.info("Sending push notification...");
+    LOGGER.info("Sending notification...");
 
     setPriority();
     setContent();

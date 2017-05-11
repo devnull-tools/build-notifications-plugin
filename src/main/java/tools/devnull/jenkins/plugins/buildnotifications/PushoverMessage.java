@@ -1,7 +1,8 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Marcelo "Ataxexe" Guimarães <ataxexe@devnull.tools>
+ * Copyright (c) 2016-2017 Marcelo "Ataxexe" Guimarães
+ * <ataxexe@devnull.tools>
  *
  * ----------------------------------------------------------------------
  * Permission  is hereby granted, free of charge, to any person obtaining
@@ -23,7 +24,6 @@
  * TORT  OR  OTHERWISE,  ARISING  FROM,  OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE   OR   THE   USE   OR   OTHER   DEALINGS  IN  THE  SOFTWARE.
  */
-
 package tools.devnull.jenkins.plugins.buildnotifications;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -44,7 +44,6 @@ public class PushoverMessage implements Message {
 
   private final String userToken;
   private final String appToken;
-  private final String device;
 
   private String content;
   private String title;
@@ -57,24 +56,10 @@ public class PushoverMessage implements Message {
    *
    * @param userToken the user token (the target to send the message)
    * @param appToken  the application token
-   * @param device    the device to send the message (optional)
-   */
-  public PushoverMessage(String userToken, String appToken, String device) {
-    this.userToken = userToken;
-    this.appToken = appToken;
-    this.device = device;
-  }
-
-  /**
-   * Creates a new Pushover message based on the given parameters
-   *
-   * @param userToken the user token (the target to send the message)
-   * @param appToken  the application token
    */
   public PushoverMessage(String userToken, String appToken) {
     this.userToken = userToken;
     this.appToken = appToken;
-    this.device = null;
   }
 
   @Override
@@ -116,7 +101,6 @@ public class PushoverMessage implements Message {
         new NameValuePair("user", userToken),
         new NameValuePair("message", content),
         new NameValuePair("title", title),
-        new NameValuePair("device", device),
         new NameValuePair("priority", priority.toString()),
         new NameValuePair("url", url),
         new NameValuePair("url_title", urlTitle)

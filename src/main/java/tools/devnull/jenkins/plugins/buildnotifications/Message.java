@@ -1,7 +1,8 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Marcelo "Ataxexe" Guimarães <ataxexe@devnull.tools>
+ * Copyright (c) 2016-2017 Marcelo "Ataxexe" Guimarães
+ * <ataxexe@devnull.tools>
  *
  * ----------------------------------------------------------------------
  * Permission  is hereby granted, free of charge, to any person obtaining
