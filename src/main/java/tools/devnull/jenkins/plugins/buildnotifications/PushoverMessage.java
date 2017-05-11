@@ -96,23 +96,21 @@ public class PushoverMessage implements Message {
 
   @Override
   public void send() {
+    try {
     HttpClient client = new HttpClient();
     PostMethod post = new PostMethod("https://api.pushover.net/1/messages.json");
-    post.setRequestBody(new NameValuePair[]{
-        new NameValuePair("token", appToken),
-        new NameValuePair("user", userToken),
-        new NameValuePair("message", content + "\n\n" + extraMessage),
-        new NameValuePair("title", title),
-        new NameValuePair("priority", priority.toString()),
-        new NameValuePair("url", url),
-        new NameValuePair("url_title", urlTitle)
-    });
-    try {
+      String data = "token=" + appToken + "&user=" + userToken + "&message=" + encode(content + "\n\n" + extraMessage) +
+          "&title=" + encode(title) + "&priority=" + priority + "&url=" + url + "&url_title=" + urlTitle;
+      post.setRequestEntity(new StringRequestEntity(data, "application/x-www-form-urlencoded", "UTF-8"));
       client.executeMethod(post);
     } catch (IOException e) {
       LOGGER.severe("Error while sending notification: " + e.getMessage());
       e.printStackTrace();
     }
+  }
+
+  private String encode(String value) throws UnsupportedEncodingException {
+    return URLEncoder.encode(value, StandardCharsets.UTF_8.name());
   }
 
 }
