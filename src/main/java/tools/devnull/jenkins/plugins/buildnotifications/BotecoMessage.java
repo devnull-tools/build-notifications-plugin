@@ -1,7 +1,8 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Marcelo "Ataxexe" Guimarães <ataxexe@devnull.tools>
+ * Copyright (c) 2016-2017 Marcelo "Ataxexe" Guimarães
+ * <ataxexe@devnull.tools>
  *
  * ----------------------------------------------------------------------
  * Permission  is hereby granted, free of charge, to any person obtaining
@@ -23,7 +24,6 @@
  * TORT  OR  OTHERWISE,  ARISING  FROM,  OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE   OR   THE   USE   OR   OTHER   DEALINGS  IN  THE  SOFTWARE.
  */
-
 package tools.devnull.jenkins.plugins.buildnotifications;
 
 import net.sf.json.JSONObject;
@@ -48,7 +48,7 @@ public class BotecoMessage implements Message {
   private String content;
   private String title;
   private String url;
-  private String urlTitle;
+  private String priority = "normal";
 
   public BotecoMessage(String eventId, String endpoint) {
     if (endpoint.endsWith("/")) {
@@ -71,31 +71,33 @@ public class BotecoMessage implements Message {
   @Override
   public void setUrl(String url, String title) {
     this.url = url;
-    this.urlTitle = title;
   }
 
   @Override
   public void highPriority() {
+    this.priority = "high";
+  }
 
+  @Override
+  public void normalPriority() {
+    this.priority = "normal";
   }
 
   @Override
   public void lowPriority() {
-
+    this.priority = "low";
   }
 
   @Override
   public void send() {
     HttpClient client = new HttpClient();
     PostMethod post = new PostMethod(endpoint);
-    String message = String.format("[a]%s[/a]: %s [l]%s <%s>[/l]",
-        title,
-        content,
-        urlTitle,
-        url);
     post.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     Map<String, String> values = new HashMap<String, String>();
-    values.put("text", message);
+    values.put("title", title);
+    values.put("text", content);
+    values.put("url", url);
+    values.put("priority", priority);
     try {
       post.setRequestEntity(new StringRequestEntity(JSONObject.fromObject(values).toString(),
           "application/json", "UTF-8"));

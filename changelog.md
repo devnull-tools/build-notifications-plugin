@@ -1,5 +1,36 @@
 # Changelog
 
+## 1.4.2
+
+- Changed parent in order to upload the plugin
+
+## 1.4.1
+
+- Descriptions for targets are now more clear
+- Improved code documentation
+
+## 1.4.0
+
+- Adjusted project's settings in order to add it to the Jenkins Plugin Repository
+  - Depend on a LTS version of jenkins (#15)
+  - Rename project on GitHub (#14)
+
+## 1.3.0
+
+- Allowed to specify notification type per chat ID (issue #10)
+
+## 1.2.3
+
+- Allowed different types of notifications (issue #9)
+
+## 1.2.2
+
+- Updated code for new `boteco` versions
+
+## 1.2.1
+
+- Updated notification with the changes made to the current jenkins build
+
 ## 1.2.0
 
 - Added support for broadcasting notifications through `boteco`

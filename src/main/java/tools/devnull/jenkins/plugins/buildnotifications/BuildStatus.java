@@ -27,53 +27,65 @@
 
 package tools.devnull.jenkins.plugins.buildnotifications;
 
+import hudson.model.AbstractBuild;
+import hudson.model.Result;
+
 /**
- * Interface that defines a message that can be sent.
+ * Enumeration of the possible build status for notification purposes.
  *
  * @author Ataxexe
  */
-public interface Message {
+public enum BuildStatus {
 
   /**
-   * Sets the content of this message
+   * Represents a build that has failed
+   */
+  BROKEN("Broken"),
+  /**
+   * Represents a build that has failed after a failed build
+   */
+  STILL_BROKEN("Still Broken"),
+  /**
+   * Represents a build that has succeeded after a failed build
+   */
+  FIXED("Fixed"),
+  /**
+   * Represents a build that has succeeded (if there is a previous build, it has been succeeded too)
+   */
+  SUCCESSFUL("Successful");
+
+  private final String tag;
+
+  BuildStatus(String tag) {
+    this.tag = tag;
+  }
+
+  public String tag() {
+    return this.tag;
+  }
+
+  /**
+   * Returns the {@code BuildStatus} that represents the given build. If the given build has a previous build, it
+   * must be finished.
    *
-   * @param content the content to set
+   * @param build the build to analyze
+   * @return the status that represents the given build
    */
-  void setContent(String content);
-
-  /**
-   * Sets the title for this message
-   *
-   * @param title the title to set
-   */
-  void setTitle(String title);
-
-  /**
-   * Sets the url for this message
-   *
-   * @param url   the url to set
-   * @param title the title of the url
-   */
-  void setUrl(String url, String title);
-
-  /**
-   * Indicates that this is a high priority message
-   */
-  void highPriority();
-
-  /**
-   * Indicates that this is a low priority message
-   */
-  void lowPriority();
-
-  /**
-   * Indicates that this is a normal priority message
-   */
-  void normalPriority();
-
-  /**
-   * Sends the message
-   */
-  void send();
+  public static BuildStatus of(AbstractBuild build) {
+    AbstractBuild previousBuild = build.getPreviousBuild();
+    if (build.getResult() == Result.SUCCESS) {
+      if (previousBuild != null) {
+        return previousBuild.getResult() == Result.SUCCESS ? SUCCESSFUL : FIXED;
+      } else {
+        return SUCCESSFUL;
+      }
+    } else {
+      if (previousBuild != null) {
+        return previousBuild.getResult() != Result.SUCCESS ? STILL_BROKEN : BROKEN;
+      } else {
+        return BROKEN;
+      }
+    }
+  }
 
 }

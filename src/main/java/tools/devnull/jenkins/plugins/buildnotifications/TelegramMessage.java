@@ -1,7 +1,8 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Marcelo "Ataxexe" Guimarães <ataxexe@devnull.tools>
+ * Copyright (c) 2016-2017 Marcelo "Ataxexe" Guimarães
+ * <ataxexe@devnull.tools>
  *
  * ----------------------------------------------------------------------
  * Permission  is hereby granted, free of charge, to any person obtaining
@@ -23,7 +24,6 @@
  * TORT  OR  OTHERWISE,  ARISING  FROM,  OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE   OR   THE   USE   OR   OTHER   DEALINGS  IN  THE  SOFTWARE.
  */
-
 package tools.devnull.jenkins.plugins.buildnotifications;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -43,7 +43,7 @@ public class TelegramMessage implements Message {
   private static final Logger LOGGER = Logger.getLogger(TelegramMessage.class.getName());
 
   private final String botToken;
-  private final String chatId;
+  private final String chatIds;
 
   private String content;
   private String title;
@@ -54,11 +54,11 @@ public class TelegramMessage implements Message {
    * Creates a new Telegram message based on the given parameters
    *
    * @param botToken the bot token
-   * @param chatId   the target id (a group conversation id or a contact id)
+   * @param chatIds  the target ids separated by commas (a group conversation id or a contact id)
    */
-  public TelegramMessage(String botToken, String chatId) {
+  public TelegramMessage(String botToken, String chatIds) {
     this.botToken = botToken;
-    this.chatId = chatId;
+    this.chatIds = chatIds;
   }
 
   @Override
@@ -83,25 +83,33 @@ public class TelegramMessage implements Message {
   }
 
   @Override
+  public void normalPriority() {
+    // Not possible with Telegram
+  }
+
+  @Override
   public void lowPriority() {
     // Not possible with Telegram
   }
 
   public void send() {
+    String[] ids = chatIds.split("\\s*,\\s*");
     HttpClient client = new HttpClient();
-    PostMethod post = new PostMethod(String.format(
-        "https://api.telegram.org/bot%s/sendMessage",
-        botToken
-    ));
-    post.setRequestBody(new NameValuePair[]{
-        new NameValuePair("chat_id", chatId),
-        new NameValuePair("text", getMessage())
-    });
-    try {
-      client.executeMethod(post);
-    } catch (IOException e) {
-      LOGGER.severe("Error while sending notification: " + e.getMessage());
-      e.printStackTrace();
+    for (String chatId : ids) {
+      PostMethod post = new PostMethod(String.format(
+          "https://api.telegram.org/bot%s/sendMessage",
+          botToken
+      ));
+      post.setRequestBody(new NameValuePair[]{
+          new NameValuePair("chat_id", chatId),
+          new NameValuePair("text", getMessage())
+      });
+      try {
+        client.executeMethod(post);
+      } catch (IOException e) {
+        LOGGER.severe("Error while sending notification: " + e.getMessage());
+        e.printStackTrace();
+      }
     }
   }
 

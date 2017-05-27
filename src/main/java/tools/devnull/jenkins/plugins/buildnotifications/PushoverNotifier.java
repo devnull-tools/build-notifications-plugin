@@ -1,7 +1,8 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Marcelo "Ataxexe" Guimarães <ataxexe@devnull.tools>
+ * Copyright (c) 2016-2017 Marcelo "Ataxexe" Guimarães
+ * <ataxexe@devnull.tools>
  *
  * ----------------------------------------------------------------------
  * Permission  is hereby granted, free of charge, to any person obtaining
@@ -23,7 +24,6 @@
  * TORT  OR  OTHERWISE,  ARISING  FROM,  OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE   OR   THE   USE   OR   OTHER   DEALINGS  IN  THE  SOFTWARE.
  */
-
 package tools.devnull.jenkins.plugins.buildnotifications;
 
 import hudson.Extension;
@@ -33,50 +33,29 @@ import hudson.model.AbstractProject;
 import hudson.model.BuildListener;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
-import hudson.tasks.Notifier;
 import hudson.tasks.Publisher;
-import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
-
-import java.io.IOException;
 
 /**
  * A notifier that uses Pushover to delivery messages
  *
  * @author Ataxexe
  */
-public class PushoverNotifier extends Notifier {
-
-  private final String userToken;
-  private final String device;
-  private final boolean sendIfSuccess;
+public class PushoverNotifier extends BaseNotifier {
 
   /**
-   * Creates a new notifier based on the given parameters
-   *
-   * @param userToken     the pushover target token
-   * @param device        the optional device to send the message
-   * @param sendIfSuccess if the notification should be sent if the build succeed
+   * @see BaseNotifier#BaseNotifier(String, String, String, String, String, boolean)
    */
   @DataBoundConstructor
-  public PushoverNotifier(String userToken, String device, boolean sendIfSuccess) {
-    this.userToken = userToken;
-    this.device = device;
-    this.sendIfSuccess = sendIfSuccess;
-  }
-
-  public String getUserToken() {
-    return userToken;
-  }
-
-  public String getDevice() {
-    return device;
-  }
-
-  public boolean isSendIfSuccess() {
-    return sendIfSuccess;
+  public PushoverNotifier(String globalTarget,
+                          String successfulTarget,
+                          String brokenTarget,
+                          String stillBrokenTarget,
+                          String fixedTarget,
+                          boolean sendIfSuccess) {
+    super(globalTarget, successfulTarget, brokenTarget, stillBrokenTarget, fixedTarget, sendIfSuccess);
   }
 
   @Override
@@ -85,14 +64,9 @@ public class PushoverNotifier extends Notifier {
   }
 
   @Override
-  public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener)
-      throws InterruptedException, IOException {
-    PushoverDescriptor descriptor = (PushoverDescriptor) Jenkins.getInstance()
-        .getDescriptor(PushoverNotifier.class);
-    Message message = new PushoverMessage(userToken, descriptor.appToken, device);
-    BuildNotifier notifier = new BuildNotifier(message, build, sendIfSuccess);
-    notifier.sendNotification();
-    return true;
+  protected Message createMessage(String target, AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) {
+    PushoverDescriptor descriptor = (PushoverDescriptor) getDescriptor();
+    return new PushoverMessage(target, descriptor.appToken);
   }
 
   /**

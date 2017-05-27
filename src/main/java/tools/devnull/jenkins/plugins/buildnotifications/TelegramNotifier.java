@@ -1,7 +1,8 @@
 /*
  * The MIT License
  *
- * Copyright (c) 2016 Marcelo "Ataxexe" Guimarães <ataxexe@devnull.tools>
+ * Copyright (c) 2016-2017 Marcelo "Ataxexe" Guimarães
+ * <ataxexe@devnull.tools>
  *
  * ----------------------------------------------------------------------
  * Permission  is hereby granted, free of charge, to any person obtaining
@@ -23,7 +24,6 @@
  * TORT  OR  OTHERWISE,  ARISING  FROM,  OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE   OR   THE   USE   OR   OTHER   DEALINGS  IN  THE  SOFTWARE.
  */
-
 package tools.devnull.jenkins.plugins.buildnotifications;
 
 import hudson.Extension;
@@ -32,63 +32,35 @@ import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.BuildListener;
 import hudson.tasks.BuildStepDescriptor;
-import hudson.tasks.BuildStepMonitor;
-import hudson.tasks.Notifier;
 import hudson.tasks.Publisher;
-import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
-
-import java.io.IOException;
 
 /**
  * A notifier that uses Telegram to delivery messages
  *
  * @author Ataxexe
  */
-public class TelegramNotifier extends Notifier {
-
-  private final String chatIds;
-  private final boolean sendIfSuccess;
+public class TelegramNotifier extends BaseNotifier {
 
   /**
-   * Creates a new notifier based on the given parameters
-   *
-   * @param chatIds       the coma separated telegram chat ids
-   * @param sendIfSuccess if the notification should be sent if the build succeed
+   * @see BaseNotifier#BaseNotifier(String, String, String, String, String, boolean)
    */
   @DataBoundConstructor
-  public TelegramNotifier(String chatIds, boolean sendIfSuccess) {
-    this.chatIds = chatIds;
-    this.sendIfSuccess = sendIfSuccess;
-  }
-
-  public String getChatIds() {
-    return chatIds;
-  }
-
-  public boolean isSendIfSuccess() {
-    return sendIfSuccess;
+  public TelegramNotifier(String globalTarget,
+                          String successfulTarget,
+                          String brokenTarget,
+                          String stillBrokenTarget,
+                          String fixedTarget,
+                          boolean sendIfSuccess) {
+    super(globalTarget, successfulTarget, brokenTarget, stillBrokenTarget, fixedTarget, sendIfSuccess);
   }
 
   @Override
-  public BuildStepMonitor getRequiredMonitorService() {
-    return BuildStepMonitor.BUILD;
-  }
-
-  @Override
-  public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener)
-      throws InterruptedException, IOException {
-    TelegramDescriptor descriptor = (TelegramDescriptor) Jenkins.getInstance()
-        .getDescriptor(TelegramNotifier.class);
-    String[] ids = chatIds.split("\\s*,\\s*");
-    for (String id : ids) {
-      Message message = new TelegramMessage(descriptor.getBotToken(), id);
-      BuildNotifier notifier = new BuildNotifier(message, build, sendIfSuccess);
-      notifier.sendNotification();
-    }
-    return true;
+  protected Message createMessage(String target, AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) {
+    TelegramDescriptor descriptor = (TelegramDescriptor) getDescriptor();
+    return new TelegramMessage(descriptor.getBotToken(), target);
   }
 
   /**
