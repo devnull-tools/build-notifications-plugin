@@ -41,6 +41,9 @@ because Telegram is a chat platform and not a notification platform like Pushove
 
 Open an issue, spread the project, use it, fork it...
 
+To file issues, use official [Jenkins Jira][jira] and the component `build-notifications-plugin`.
+
 [pushover]: <http://pushover.net/>
 [telegram]: <https://telegram.org/>
 [boteco]: <https://github.com/devnull-tools/boteco>
+[jira]: <https://issues.jenkins-ci.org>
