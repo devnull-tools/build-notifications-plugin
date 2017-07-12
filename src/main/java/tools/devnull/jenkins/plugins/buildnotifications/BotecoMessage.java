@@ -45,17 +45,20 @@ public class BotecoMessage implements Message {
 
   private final String endpoint;
 
+  private String extraMessage;
   private String content;
   private String title;
   private String url;
   private String priority = "normal";
 
-  public BotecoMessage(String eventId, String endpoint) {
+  public BotecoMessage(String eventId, String endpoint, String extraMessage) {
     if (endpoint.endsWith("/")) {
       this.endpoint = endpoint + eventId;
     } else {
       this.endpoint = endpoint + "/" + eventId;
     }
+
+    this.extraMessage = extraMessage;
   }
 
   @Override
@@ -95,7 +98,7 @@ public class BotecoMessage implements Message {
     post.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     Map<String, String> values = new HashMap<String, String>();
     values.put("title", title);
-    values.put("text", content);
+    values.put("text", content + "\n\n" + extraMessage);
     values.put("url", url);
     values.put("priority", priority);
     try {

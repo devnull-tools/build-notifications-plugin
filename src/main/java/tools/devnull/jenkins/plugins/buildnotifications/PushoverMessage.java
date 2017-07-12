@@ -27,13 +27,10 @@
 package tools.devnull.jenkins.plugins.buildnotifications;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 
 /**
@@ -48,6 +45,7 @@ public class PushoverMessage implements Message {
   private final String userToken;
   private final String appToken;
 
+  private String extraMessage;
   private String content;
   private String title;
   private Integer priority = 0;
@@ -60,9 +58,10 @@ public class PushoverMessage implements Message {
    * @param userToken the user token (the target to send the message)
    * @param appToken  the application token
    */
-  public PushoverMessage(String userToken, String appToken) {
+  public PushoverMessage(String userToken, String appToken, String extraMessage) {
     this.userToken = userToken;
     this.appToken = appToken;
+    this.extraMessage = extraMessage;
   }
 
   @Override
@@ -97,21 +96,23 @@ public class PushoverMessage implements Message {
 
   @Override
   public void send() {
+    HttpClient client = new HttpClient();
+    PostMethod post = new PostMethod("https://api.pushover.net/1/messages.json");
+    post.setRequestBody(new NameValuePair[]{
+        new NameValuePair("token", appToken),
+        new NameValuePair("user", userToken),
+        new NameValuePair("message", content + "\n\n" + extraMessage),
+        new NameValuePair("title", title),
+        new NameValuePair("priority", priority.toString()),
+        new NameValuePair("url", url),
+        new NameValuePair("url_title", urlTitle)
+    });
     try {
-      HttpClient client = new HttpClient();
-      PostMethod post = new PostMethod("https://api.pushover.net/1/messages.json");
-      String data = "token=" + appToken + "&user=" + userToken + "&message=" + encode(content) +
-          "&title=" + encode(title) + "&priority=" + priority + "&url=" + url + "&url_title=" + urlTitle;
-      post.setRequestEntity(new StringRequestEntity(data, "application/x-www-form-urlencoded", "UTF-8"));
       client.executeMethod(post);
     } catch (IOException e) {
       LOGGER.severe("Error while sending notification: " + e.getMessage());
       e.printStackTrace();
     }
-  }
-
-  private String encode(String value) throws UnsupportedEncodingException {
-    return URLEncoder.encode(value, StandardCharsets.UTF_8.name());
   }
 
 }

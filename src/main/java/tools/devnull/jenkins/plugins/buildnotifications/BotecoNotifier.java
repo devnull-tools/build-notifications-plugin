@@ -45,7 +45,7 @@ import org.kohsuke.stapler.StaplerRequest;
 public class BotecoNotifier extends BaseNotifier {
 
   /**
-   * @see BaseNotifier#BaseNotifier(String, String, String, String, String, boolean)
+   * @see BaseNotifier#BaseNotifier(String, String, String, String, String, boolean, String)
    */
   @DataBoundConstructor
   public BotecoNotifier(String globalTarget,
@@ -53,14 +53,15 @@ public class BotecoNotifier extends BaseNotifier {
                         String brokenTarget,
                         String stillBrokenTarget,
                         String fixedTarget,
-                        boolean sendIfSuccess) {
-    super(globalTarget, successfulTarget, brokenTarget, stillBrokenTarget, fixedTarget, sendIfSuccess);
+                        boolean sendIfSuccess,
+                        String extraMessage) {
+    super(globalTarget, successfulTarget, brokenTarget, stillBrokenTarget, fixedTarget, sendIfSuccess, extraMessage);
   }
 
   @Override
   protected Message createMessage(String target, AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) {
     BotecoDescriptor descriptor = (BotecoDescriptor) getDescriptor();
-    return new BotecoMessage(target, descriptor.endpoint);
+    return new BotecoMessage(target, descriptor.endpoint, replaceEnvString(build, getExtraMessage()));
   }
 
   /**
