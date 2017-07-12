@@ -48,7 +48,7 @@ public class BaseNotifierTest {
 
   @Test
   public void testGlobalTargetConfigurationWithoutFlag() {
-    NotifierTest notifier = new NotifierTest("globalTarget", null, null, null, null, false);
+    NotifierTest notifier = new NotifierTest("globalTarget", null, null, null, null, false, null);
     Spec.given(notifier)
         .when(performOn(successful()))
         .expect(target(), to().beNull(), because("Flag is unset"))
@@ -65,7 +65,7 @@ public class BaseNotifierTest {
 
   @Test
   public void testGlobalTargetConfigurationWithFlag() {
-    NotifierTest notifier = new NotifierTest("globalTarget", null, null, null, null, true);
+    NotifierTest notifier = new NotifierTest("globalTarget", null, null, null, null, true, null);
     Spec.given(notifier)
         .when(performOn(successful()))
         .expect(target(), to().be("globalTarget"), because("Flag is set"))
@@ -82,7 +82,7 @@ public class BaseNotifierTest {
 
   @Test
   public void testSuccessfulTargetConfigurationWithoutGlobalTarget() {
-    NotifierTest notifier = new NotifierTest(null, "successfulTarget", null, null, null, false);
+    NotifierTest notifier = new NotifierTest(null, "successfulTarget", null, null, null, false, null);
     Spec.given(notifier)
         .when(performOn(successful()))
         .expect(target(), to().be("successfulTarget"))
@@ -99,7 +99,7 @@ public class BaseNotifierTest {
 
   @Test
   public void testSuccessfulTargetConfigurationWithGlobalTargetWithoutFlag() {
-    NotifierTest notifier = new NotifierTest("globalTarget", "successfulTarget", null, null, null, false);
+    NotifierTest notifier = new NotifierTest("globalTarget", "successfulTarget", null, null, null, false, null);
     Spec.given(notifier)
         .when(performOn(successful()))
         .expect(target(), to().be("successfulTarget"))
@@ -116,7 +116,7 @@ public class BaseNotifierTest {
 
   @Test
   public void testSuccessfulTargetConfigurationWithGlobalTargetWithFlag() {
-    NotifierTest notifier = new NotifierTest("globalTarget", null, null, null, null, true);
+    NotifierTest notifier = new NotifierTest("globalTarget", null, null, null, null, true, null);
     Spec.given(notifier)
         .when(performOn(successful()))
         .expect(target(), to().be("globalTarget"), because("Global target and flag are set"))
@@ -133,7 +133,7 @@ public class BaseNotifierTest {
 
   @Test
   public void testBrokenTargetConfigurationWithoutGlobalTarget() {
-    NotifierTest notifier = new NotifierTest(null, null, "brokenTarget", null, null, false);
+    NotifierTest notifier = new NotifierTest(null, null, "brokenTarget", null, null, false, null);
     Spec.given(notifier)
         .when(performOn(successful()))
         .expect(target(), to().beNull(), because("Global target is unset"))
@@ -150,7 +150,7 @@ public class BaseNotifierTest {
 
   @Test
   public void testBrokenTargetConfigurationWithGlobalTargetWithoutFlag() {
-    NotifierTest notifier = new NotifierTest("globalTarget", null, "brokenTarget", null, null, false);
+    NotifierTest notifier = new NotifierTest("globalTarget", null, "brokenTarget", null, null, false, null);
     Spec.given(notifier)
         .when(performOn(successful()))
         .expect(target(), to().beNull(), because("Global target is set but the flag is not"))
@@ -167,7 +167,7 @@ public class BaseNotifierTest {
 
   @Test
   public void testBrokenTargetConfigurationWithGlobalTargetWithFlag() {
-    NotifierTest notifier = new NotifierTest("globalTarget", null, "brokenTarget", null, null, true);
+    NotifierTest notifier = new NotifierTest("globalTarget", null, "brokenTarget", null, null, true, null);
     Spec.given(notifier)
         .when(performOn(successful()))
         .expect(target(), to().be("globalTarget"), because("Global target and flag are set"))
@@ -184,7 +184,7 @@ public class BaseNotifierTest {
 
   @Test
   public void testStillBrokenTargetConfigurationWithoutGlobalTarget() {
-    NotifierTest notifier = new NotifierTest(null, null, null, "stillBrokenTarget", null, false);
+    NotifierTest notifier = new NotifierTest(null, null, null, "stillBrokenTarget", null, false, null);
     Spec.given(notifier)
         .when(performOn(successful()))
         .expect(target(), to().beNull(), because("Global target is unset"))
@@ -201,7 +201,7 @@ public class BaseNotifierTest {
 
   @Test
   public void testStillBrokenTargetConfigurationWithGlobalTargetWithoutFlag() {
-    NotifierTest notifier = new NotifierTest("globalTarget", null, null, "stillBrokenTarget", null, false);
+    NotifierTest notifier = new NotifierTest("globalTarget", null, null, "stillBrokenTarget", null, false, null);
     Spec.given(notifier)
         .when(performOn(successful()))
         .expect(target(), to().beNull(), because("Global target is set but the flag is not"))
@@ -218,7 +218,7 @@ public class BaseNotifierTest {
 
   @Test
   public void testStillBrokenTargetConfigurationWithGlobalTargetWithFlag() {
-    NotifierTest notifier = new NotifierTest("globalTarget", null, null, "stillBrokenTarget", null, true);
+    NotifierTest notifier = new NotifierTest("globalTarget", null, null, "stillBrokenTarget", null, true, null);
     Spec.given(notifier)
         .when(performOn(successful()))
         .expect(target(), to().be("globalTarget"), because("Global target and flag are set"))
@@ -235,7 +235,7 @@ public class BaseNotifierTest {
 
   @Test
   public void testFixedTargetConfigurationWithoutGlobalTarget() {
-    NotifierTest notifier = new NotifierTest(null, null, null, null, "fixedTarget", false);
+    NotifierTest notifier = new NotifierTest(null, null, null, null, "fixedTarget", false, null);
     Spec.given(notifier)
         .when(performOn(successful()))
         .expect(target(), to().beNull(), because("Global target is unset"))
@@ -252,7 +252,7 @@ public class BaseNotifierTest {
 
   @Test
   public void testFixedTargetConfigurationWithGlobalTargetWithoutFlag() {
-    NotifierTest notifier = new NotifierTest("globalTarget", null, null, null, "fixedTarget", false);
+    NotifierTest notifier = new NotifierTest("globalTarget", null, null, null, "fixedTarget", false, null);
     Spec.given(notifier)
         .when(performOn(successful()))
         .expect(target(), to().beNull(), because("Global target is set but the flag is not"))
@@ -269,7 +269,7 @@ public class BaseNotifierTest {
 
   @Test
   public void testFixedTargetConfigurationWithGlobalTargetWithFlag() {
-    NotifierTest notifier = new NotifierTest("globalTarget", null, null, null, "fixedTarget", true);
+    NotifierTest notifier = new NotifierTest("globalTarget", null, null, null, "fixedTarget", true, null);
     Spec.given(notifier)
         .when(performOn(successful()))
         .expect(target(), to().be("globalTarget"), because("Global target and flag are set"))
@@ -308,8 +308,9 @@ public class BaseNotifierTest {
                         String brokenTarget,
                         String stillBrokenTarget,
                         String fixedTarget,
-                        boolean sendIfSuccess) {
-      super(globalTarget, successfulTarget, brokenTarget, stillBrokenTarget, fixedTarget, sendIfSuccess);
+                        boolean sendIfSuccess,
+                        String extraMessage) {
+      super(globalTarget, successfulTarget, brokenTarget, stillBrokenTarget, fixedTarget, sendIfSuccess, extraMessage);
     }
 
     @Override
