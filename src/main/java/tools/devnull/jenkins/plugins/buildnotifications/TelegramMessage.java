@@ -26,14 +26,11 @@
  */
 package tools.devnull.jenkins.plugins.buildnotifications;
 
-import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -105,12 +102,14 @@ public class TelegramMessage implements Message {
           "https://api.telegram.org/bot%s/sendMessage",
           botToken
       ));
-      Map<String, String> values = new HashMap<String, String>();
-      values.put("chat_id", chatId);
-      values.put("text", getMessage());
+
+      post.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
+
+      post.setRequestBody(new NameValuePair[]{
+          new NameValuePair("chat_id", chatId),
+          new NameValuePair("text", getMessage())
+      });
       try {
-        post.setRequestEntity(new StringRequestEntity(JSONObject.fromObject(values).toString(),
-            "application/json", "UTF-8"));
         client.executeMethod(post);
       } catch (IOException e) {
         LOGGER.severe("Error while sending notification: " + e.getMessage());
