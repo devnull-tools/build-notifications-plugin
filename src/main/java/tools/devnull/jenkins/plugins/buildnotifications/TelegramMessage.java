@@ -102,6 +102,9 @@ public class TelegramMessage implements Message {
           "https://api.telegram.org/bot%s/sendMessage",
           botToken
       ));
+
+      post.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
+
       post.setRequestBody(new NameValuePair[]{
           new NameValuePair("chat_id", chatId),
           new NameValuePair("text", getMessage())
