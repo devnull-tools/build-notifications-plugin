@@ -46,7 +46,7 @@ import org.kohsuke.stapler.StaplerRequest;
 public class PushoverNotifier extends BaseNotifier {
 
   /**
-   * @see BaseNotifier#BaseNotifier(String, String, String, String, String, boolean)
+   * @see BaseNotifier#BaseNotifier(String, String, String, String, String, boolean, String)
    */
   @DataBoundConstructor
   public PushoverNotifier(String globalTarget,
@@ -54,8 +54,9 @@ public class PushoverNotifier extends BaseNotifier {
                           String brokenTarget,
                           String stillBrokenTarget,
                           String fixedTarget,
-                          boolean sendIfSuccess) {
-    super(globalTarget, successfulTarget, brokenTarget, stillBrokenTarget, fixedTarget, sendIfSuccess);
+                          boolean sendIfSuccess,
+                          String extraMessage) {
+    super(globalTarget, successfulTarget, brokenTarget, stillBrokenTarget, fixedTarget, sendIfSuccess, extraMessage);
   }
 
   @Override
@@ -66,7 +67,7 @@ public class PushoverNotifier extends BaseNotifier {
   @Override
   protected Message createMessage(String target, AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) {
     PushoverDescriptor descriptor = (PushoverDescriptor) getDescriptor();
-    return new PushoverMessage(target, descriptor.appToken);
+    return new PushoverMessage(target, descriptor.appToken, replaceEnvString(build, getExtraMessage()));
   }
 
   /**

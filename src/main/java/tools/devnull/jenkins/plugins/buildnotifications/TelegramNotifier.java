@@ -45,7 +45,7 @@ import org.kohsuke.stapler.StaplerRequest;
 public class TelegramNotifier extends BaseNotifier {
 
   /**
-   * @see BaseNotifier#BaseNotifier(String, String, String, String, String, boolean)
+   * @see BaseNotifier#BaseNotifier(String, String, String, String, String, boolean, String)
    */
   @DataBoundConstructor
   public TelegramNotifier(String globalTarget,
@@ -53,14 +53,15 @@ public class TelegramNotifier extends BaseNotifier {
                           String brokenTarget,
                           String stillBrokenTarget,
                           String fixedTarget,
-                          boolean sendIfSuccess) {
-    super(globalTarget, successfulTarget, brokenTarget, stillBrokenTarget, fixedTarget, sendIfSuccess);
+                          boolean sendIfSuccess,
+                          String extraMessage) {
+    super(globalTarget, successfulTarget, brokenTarget, stillBrokenTarget, fixedTarget, sendIfSuccess, extraMessage);
   }
 
   @Override
   protected Message createMessage(String target, AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) {
     TelegramDescriptor descriptor = (TelegramDescriptor) getDescriptor();
-    return new TelegramMessage(descriptor.getBotToken(), target);
+    return new TelegramMessage(descriptor.getBotToken(), target, replaceEnvString(build, getExtraMessage()));
   }
 
   /**

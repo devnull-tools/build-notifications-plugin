@@ -45,6 +45,7 @@ public class TelegramMessage implements Message {
   private final String botToken;
   private final String chatIds;
 
+  private String extraMessage;
   private String content;
   private String title;
   private String url;
@@ -56,9 +57,10 @@ public class TelegramMessage implements Message {
    * @param botToken the bot token
    * @param chatIds  the target ids separated by commas (a group conversation id or a contact id)
    */
-  public TelegramMessage(String botToken, String chatIds) {
+  public TelegramMessage(String botToken, String chatIds, String extraMessage) {
     this.botToken = botToken;
     this.chatIds = chatIds;
+    this.extraMessage = extraMessage;
   }
 
   @Override
@@ -100,6 +102,9 @@ public class TelegramMessage implements Message {
           "https://api.telegram.org/bot%s/sendMessage",
           botToken
       ));
+
+      post.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
+
       post.setRequestBody(new NameValuePair[]{
           new NameValuePair("chat_id", chatId),
           new NameValuePair("text", getMessage())
@@ -115,11 +120,12 @@ public class TelegramMessage implements Message {
 
   private String getMessage() {
     return String.format(
-        "%s%n%n%s%n%n%s <%s>",
+        "%s%n%n%s%n%n%s <%s>%n%n%s",
         title,
         content,
         urlTitle,
-        url
+        url,
+        extraMessage
     );
   }
 
