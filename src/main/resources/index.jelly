@@ -1,4 +1,4 @@
 <?jelly escape-by-default='true'?>
 <div>
-  Send build notifications through Telegram, Pushover or Boteco.
+  Send build notifications through Telegram, Pushover, Boteco or Slack.
 </div>
