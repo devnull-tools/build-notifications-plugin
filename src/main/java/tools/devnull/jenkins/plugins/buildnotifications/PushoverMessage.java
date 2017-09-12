@@ -45,6 +45,7 @@ public class PushoverMessage implements Message {
   private final String userToken;
   private final String appToken;
 
+  private String extraMessage;
   private String content;
   private String title;
   private Integer priority = 0;
@@ -57,9 +58,10 @@ public class PushoverMessage implements Message {
    * @param userToken the user token (the target to send the message)
    * @param appToken  the application token
    */
-  public PushoverMessage(String userToken, String appToken) {
+  public PushoverMessage(String userToken, String appToken, String extraMessage) {
     this.userToken = userToken;
     this.appToken = appToken;
+    this.extraMessage = extraMessage;
   }
 
   @Override
@@ -99,7 +101,7 @@ public class PushoverMessage implements Message {
     post.setRequestBody(new NameValuePair[]{
         new NameValuePair("token", appToken),
         new NameValuePair("user", userToken),
-        new NameValuePair("message", content),
+        new NameValuePair("message", content + "\n\n" + extraMessage),
         new NameValuePair("title", title),
         new NameValuePair("priority", priority.toString()),
         new NameValuePair("url", url),

@@ -27,14 +27,20 @@
 
 package tools.devnull.jenkins.plugins.buildnotifications;
 
+import hudson.EnvVars;
 import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.BuildListener;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
+import hudson.util.LogTaskListener;
 import jenkins.model.Jenkins;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static java.util.logging.Level.SEVERE;
 
 /**
  * A base class for all notifiers.
@@ -43,12 +49,16 @@ import java.io.IOException;
  */
 public abstract class BaseNotifier extends Notifier {
 
+  private static final Logger logger = Logger.getLogger(TelegramNotifier.class.getName());
+
   private final String globalTarget;
   private final String successfulTarget;
   private final String brokenTarget;
   private final String stillBrokenTarget;
   private final String fixedTarget;
   private final boolean sendIfSuccess;
+
+  private final String extraMessage;
 
   /**
    * Creates a new notifier based on the given parameters
@@ -59,21 +69,43 @@ public abstract class BaseNotifier extends Notifier {
    * @param stillBrokenTarget the target for still broken build notifications
    * @param fixedTarget       the target for fixed build notifications
    * @param sendIfSuccess     if the notification should be sent if the build succeed
+   * @param extraMessage      the extra message
    */
   public BaseNotifier(String globalTarget,
                       String successfulTarget,
                       String brokenTarget,
                       String stillBrokenTarget,
                       String fixedTarget,
-                      boolean sendIfSuccess) {
+                      boolean sendIfSuccess,
+                      String extraMessage) {
     this.globalTarget = globalTarget;
     this.successfulTarget = successfulTarget;
     this.brokenTarget = brokenTarget;
     this.stillBrokenTarget = stillBrokenTarget;
     this.fixedTarget = fixedTarget;
     this.sendIfSuccess = sendIfSuccess;
+    this.extraMessage = extraMessage;
   }
 
+  /**
+   * Replace Env variables to value.
+   * @param build
+   * @param message
+   * @return
+   */
+  public String replaceEnvString(AbstractBuild build, String message) {
+    EnvVars envVars = new EnvVars();
+
+    try {
+      envVars = build.getEnvironment(new LogTaskListener(logger, Level.INFO));
+    } catch (IOException e) {
+      logger.log(SEVERE, e.getMessage(), e);
+    } catch (InterruptedException e) {
+      logger.log(SEVERE, e.getMessage(), e);
+    }
+
+    return envVars.expand(message);
+  }
 
   public String getGlobalTarget() {
     return globalTarget;
@@ -97,6 +129,10 @@ public abstract class BaseNotifier extends Notifier {
 
   public boolean isSendIfSuccess() {
     return sendIfSuccess;
+  }
+
+  public String getExtraMessage() {
+    return extraMessage;
   }
 
   @Override
