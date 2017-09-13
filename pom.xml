@@ -10,7 +10,7 @@
 
   <groupId>tools.devnull</groupId>
   <artifactId>build-notifications</artifactId>
-  <version>1.5.0</version>
+  <version>1.5.1-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
   <name>Build Notifications Plugin</name>
@@ -36,7 +36,7 @@
     <connection>scm:git:git@github.com:jenkinsci/build-notifications-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/build-notifications-plugin.git</developerConnection>
     <url>https://github.com/jenkinsci/build-notifications-plugin</url>
-    <tag>v1.5.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>
