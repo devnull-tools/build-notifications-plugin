@@ -1,6 +1,6 @@
 # Jenkins Build Notifications Plugin
 
-This is a plugin to enable build notifications through [Pushover][], [Telegram][] or even [Boteco][].
+This is a plugin to enable build notifications through [Pushover][], [Telegram][], [Slack][] or even [Boteco][].
 
 ## How to build
 
@@ -13,7 +13,7 @@ There are global and specific options:
 ### Global options
 
 Global options should be configured in Jenkins System Configuration. You'll need to set
-an Application Token for Pushover and/or a Bot Token for Telegram.
+your api tokens there.
 
 ### Specific options
 
@@ -41,9 +41,7 @@ because Telegram is a chat platform and not a notification platform like Pushove
 
 Open an issue, spread the project, use it, fork it...
 
-To file issues, use official [Jenkins Jira][jira] and the component `build-notifications-plugin`.
-
 [pushover]: <http://pushover.net/>
 [telegram]: <https://telegram.org/>
 [boteco]: <https://github.com/devnull-tools/boteco>
-[jira]: <https://issues.jenkins-ci.org>
+[slack]: <https://slack.com>
