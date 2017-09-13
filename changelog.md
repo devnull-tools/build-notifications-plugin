@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.0
+
+- Merged some PRs on the original repository
+  * Slack support
+  * Added an extra field for the notification text
+
 ## 1.4.3
 
 - Add support for non latin symbols in changelog (JENKINS-44220)
