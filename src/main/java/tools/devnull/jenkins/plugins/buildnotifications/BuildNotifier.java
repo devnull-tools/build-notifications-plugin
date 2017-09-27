@@ -124,7 +124,7 @@ public class BuildNotifier {
   }
 
   private String getResultString(){
-    String result = NotifierSettings.alternativeResult(this.result);
+    String result = (new NotifierSettings()).alternativeResult(this.result);
     if(result != null && result.length() > 0){
       return result;
     }else{

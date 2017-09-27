@@ -1,8 +1,11 @@
 package tools.devnull.jenkins.plugins.buildnotifications;
 import hudson.Extension;
+import hudson.XmlFile;
 import hudson.model.Result;
 import jenkins.model.GlobalConfiguration;
+import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
+import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 
 /**
@@ -11,11 +14,26 @@ import org.kohsuke.stapler.StaplerRequest;
 @Extension
 public class NotifierSettings extends GlobalConfiguration{
 
-    private static String brokenMSG, stillBrokenMSG, fixedMSG, successMSG;
-    private static String abortedRES, failureRES, notBuildRES, successRES, unstableRES;
+    private String brokenMSG, stillBrokenMSG, fixedMSG, successMSG;
+    private String abortedRES, failureRES, notBuildRES, successRES, unstableRES;
 
     public NotifierSettings(){
         load();
+    }
+
+    @DataBoundConstructor
+    public NotifierSettings(String brokenMSG, String stillBrokenMSG, String fixedMSG, String successMSG,
+                            String abortedRES, String failureRES, String notBuildRES, String successRES, String unstableRES){
+        this.brokenMSG = brokenMSG;
+        this.stillBrokenMSG = stillBrokenMSG;
+        this.fixedMSG = fixedMSG;
+        this.successMSG = successMSG;
+
+        this.abortedRES = abortedRES;
+        this.failureRES = failureRES;
+        this.notBuildRES = notBuildRES;
+        this.successRES = successRES;
+        this.unstableRES = unstableRES;
     }
 
     @Override
@@ -41,23 +59,39 @@ public class NotifierSettings extends GlobalConfiguration{
         return true;
     }
 
-    public static String getBrokenMSG() {
+    public String getBrokenMSG() {
         return brokenMSG;
     }
 
-    public static String getStillBrokenMSG() {
+    public String getStillBrokenMSG() {
         return stillBrokenMSG;
     }
 
-    public static String getFixedMSG() {
+    public String getFixedMSG() {
         return fixedMSG;
     }
 
-    public static String getSuccessMSG() {
+    public String getSuccessMSG() {
         return successMSG;
     }
 
-    public static String alternativeMSG(BuildStatus bs){
+    /*public void setBrokenMSG(String brokenMSG) {
+        this.brokenMSG = brokenMSG;
+    }
+
+    public void setStillBrokenMSG(String stillBrokenMSG) {
+        this.stillBrokenMSG = stillBrokenMSG;
+    }
+
+    public void setFixedMSG(String fixedMSG) {
+        this.fixedMSG = fixedMSG;
+    }
+
+    public void setSuccessMSG(String successMSG) {
+        this.successMSG = successMSG;
+    }*/
+
+    public String alternativeMSG(BuildStatus bs){
         switch(bs) {
             case BROKEN:
                 return getBrokenMSG();
@@ -72,27 +106,47 @@ public class NotifierSettings extends GlobalConfiguration{
         }
     }
 
-    public static String getAbortedRES() {
+    public String getAbortedRES() {
         return abortedRES;
     }
 
-    public static String getFailureRES() {
+    public String getFailureRES() {
         return failureRES;
     }
 
-    public static String getNotBuildRES() {
+    public String getNotBuildRES() {
         return notBuildRES;
     }
 
-    public static String getSuccessRES() {
+    public String getSuccessRES() {
         return successRES;
     }
 
-    public static String getUnstableRES() {
+    public String getUnstableRES() {
         return unstableRES;
     }
 
-    public static String alternativeResult(Result res){
+    /*public void setAbortedRES(String abortedRES) {
+        this.abortedRES = abortedRES;
+    }
+
+    public void setFailureRES(String failureRES) {
+        this.failureRES = failureRES;
+    }
+
+    public void setNotBuildRES(String notBuildRES) {
+        this.notBuildRES = notBuildRES;
+    }
+
+    public void setSuccessRES(String successRES) {
+        this.successRES = successRES;
+    }
+
+    public void setUnstableRES(String unstableRES) {
+        this.unstableRES = unstableRES;
+    }*/
+
+    public String alternativeResult(Result res){
         switch(res.toString()){
             case "ABORTED":
                 return getAbortedRES();
