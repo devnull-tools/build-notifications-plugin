@@ -1,0 +1,45 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core"
+         xmlns:f="/lib/form">
+
+  <f:section title="BuildNotifications Configuration" name="base">
+    <f:entry title="BrokenMessage" field="brokenMSG"
+             description="other Broken Message">
+      <f:textbox field="brokenMSG"/>
+    </f:entry>
+    <f:entry title="StillBrokenMessage" field="stillBrokenMSG"
+            description="other Still Broken Message">
+      <f:textbox field="stillBrokenMSG"/>
+    </f:entry>
+    <f:entry title="FixedMessage" field="fixedMSG"
+            description="other Fixed Message">
+      <f:textbox field="fixedMSG"/>
+    </f:entry>
+    <f:entry title="SuccessfulMessage" field="successMSG"
+            description="other Success Message">
+      <f:textbox field="successMSG"/>
+    </f:entry>
+
+    <f:entry title="Aborted Result" field="abortedRES"
+            description="other Aborted Result Message">
+      <f:textbox field="abortedRES"/>
+    </f:entry>
+    <f:entry title="Failure Result" field="failureRES"
+            description="other Failure Result Message">
+      <f:textbox field="failureRES"/>
+    </f:entry>
+    <f:entry title="Not Build Result" field="notBuildRES"
+            description="other Not Build Result Message">
+      <f:textbox field="notBuildRES"/>
+    </f:entry>
+    <f:entry title="Success Result" field="successRES"
+            description="other Success Result Message">
+      <f:textbox field="successRES"/>
+    </f:entry>
+    <f:entry title="Unstable Result" field="unstableRES"
+            description="other Unstable Result Message">
+      <f:textbox field="unstableRES"/>
+    </f:entry>
+  </f:section>
+
+</j:jelly>
