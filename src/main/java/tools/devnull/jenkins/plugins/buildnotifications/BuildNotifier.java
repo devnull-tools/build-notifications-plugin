@@ -33,6 +33,7 @@ import hudson.scm.ChangeLogSet;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
+
 /**
  * A class that sends notifications based on a build.
  *
@@ -82,7 +83,7 @@ public class BuildNotifier {
 
   private void setContent() {
     if (build.getChangeSet().getItems().length == 0) {
-      message.setContent(result.toString());
+      message.setContent(this.getResultString());
     } else {
       StringBuilder changes = new StringBuilder();
 
@@ -94,7 +95,7 @@ public class BuildNotifier {
         changes.append(change.getAuthor());
       }
 
-      message.setContent(String.format("%s%n%s", result.toString(), changes.toString()));
+      message.setContent(String.format("%s%n%s", this.getResultString(), changes.toString()));
     }
   }
 
@@ -119,6 +120,15 @@ public class BuildNotifier {
       case SUCCESSFUL:
         message.lowPriority();
         break;
+    }
+  }
+
+  private String getResultString(){
+    String result = NotifierSettings.alternativeResult(this.result);
+    if(result != null && result.length() > 0){
+      return result;
+    }else{
+      return this.result.toString();
     }
   }
 
