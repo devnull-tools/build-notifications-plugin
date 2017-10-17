@@ -27,13 +27,10 @@
 package tools.devnull.jenkins.plugins.buildnotifications;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 
 /**
@@ -115,5 +112,6 @@ public class PushoverMessage implements Message {
   private String encode(String value) throws UnsupportedEncodingException {
     return URLEncoder.encode(value, StandardCharsets.UTF_8.name());
   }
+
 
 }
