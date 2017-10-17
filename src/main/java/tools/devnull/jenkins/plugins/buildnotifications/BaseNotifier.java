@@ -57,7 +57,6 @@ public abstract class BaseNotifier extends Notifier {
   private final String stillBrokenTarget;
   private final String fixedTarget;
   private final boolean sendIfSuccess;
-
   private final String extraMessage;
 
   /**
@@ -98,9 +97,7 @@ public abstract class BaseNotifier extends Notifier {
 
     try {
       envVars = build.getEnvironment(new LogTaskListener(logger, Level.INFO));
-    } catch (IOException e) {
-      logger.log(SEVERE, e.getMessage(), e);
-    } catch (InterruptedException e) {
+    } catch (IOException | InterruptedException e) {
       logger.log(SEVERE, e.getMessage(), e);
     }
 
