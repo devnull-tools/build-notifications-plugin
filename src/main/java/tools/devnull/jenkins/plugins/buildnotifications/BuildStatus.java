@@ -62,10 +62,10 @@ public enum BuildStatus {
 
   public String tag() {
     String tag = (new NotifierSettings()).alternativeMSG(this);
-    if(tag!=null && tag.length()>0) {
-        return tag;
+    if (tag != null && tag.length() > 0) {
+      return tag;
     } else {
-        return this.tag;
+      return this.tag;
     }
   }
 

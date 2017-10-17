@@ -27,10 +27,13 @@
 package tools.devnull.jenkins.plugins.buildnotifications;
 
 import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 
 /**
@@ -96,31 +99,21 @@ public class PushoverMessage implements Message {
 
   @Override
   public void send() {
-    HttpClient client = new HttpClient();
-    PostMethod post = new PostMethod("https://api.pushover.net/1/messages.json");
-    post.setRequestBody(new NameValuePair[]{
-        new NameValuePair("token", appToken),
-        new NameValuePair("user", userToken),
-        new NameValuePair("message", content + "\n\n" + extraMessage),
-        new NameValuePair("title", title),
-        new NameValuePair("priority", priority.toString()),
-        new NameValuePair("url", url),
-        new NameValuePair("url_title", urlTitle)
-    });
     try {
-<<<<<<< c6d8eec176de406c646ea78adbac451272252d59
     HttpClient client = new HttpClient();
     PostMethod post = new PostMethod("https://api.pushover.net/1/messages.json");
       String data = "token=" + appToken + "&user=" + userToken + "&message=" + encode(content + "\n\n" + extraMessage) +
           "&title=" + encode(title) + "&priority=" + priority + "&url=" + url + "&url_title=" + urlTitle;
       post.setRequestEntity(new StringRequestEntity(data, "application/x-www-form-urlencoded", "UTF-8"));
-=======
->>>>>>> ** Added extramessage.
       client.executeMethod(post);
     } catch (IOException e) {
       LOGGER.severe("Error while sending notification: " + e.getMessage());
       e.printStackTrace();
     }
+  }
+
+  private String encode(String value) throws UnsupportedEncodingException {
+    return URLEncoder.encode(value, StandardCharsets.UTF_8.name());
   }
 
 }
