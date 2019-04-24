@@ -5,7 +5,19 @@
   <f:section title="Telegram Configuration" name="telegram">
     <f:entry title="Bot Token" field="botToken"
              description="The bot token from Telegram">
-      <f:textbox field="botToken"/>
+      <f:password field="botToken"/>
+    </f:entry>
+    <f:entry title="Proxy" field="tProxy"
+             description="The bot proxy Telegram proxy:port">
+      <f:textbox field="tProxy"/>
+    </f:entry>
+    <f:entry title="Proxy usr" field="tProxyUsr"
+             description="The bot proxy usr for basic auth">
+      <f:textbox field="tProxyUsr"/>
+    </f:entry>
+    <f:entry title="Proxy pwd" field="tProxyPwd"
+             description="The bot proxy pwd">
+      <f:password field="tProxyPwd"/>
     </f:entry>
   </f:section>
 

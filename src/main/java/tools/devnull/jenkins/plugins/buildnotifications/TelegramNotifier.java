@@ -61,7 +61,8 @@ public class TelegramNotifier extends BaseNotifier {
   @Override
   protected Message createMessage(String target, AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) {
     TelegramDescriptor descriptor = (TelegramDescriptor) getDescriptor();
-    return new TelegramMessage(descriptor.getBotToken(), target, replaceEnvString(build, getExtraMessage()));
+    return new TelegramMessage(descriptor.getBotToken(), target, replaceEnvString(build, getExtraMessage())
+            , descriptor.gettProxy(), descriptor.gettProxyUsr(), descriptor.gettProxyPwd());
   }
 
   /**
@@ -71,6 +72,9 @@ public class TelegramNotifier extends BaseNotifier {
   public static class TelegramDescriptor extends BuildStepDescriptor<Publisher> {
 
     private String botToken;
+    private String tProxy;
+    private String tProxyUsr;
+    private String tProxyPwd;
 
     public TelegramDescriptor() {
       load();
@@ -80,10 +84,27 @@ public class TelegramNotifier extends BaseNotifier {
       return botToken;
     }
 
+    public String gettProxy() {
+      return tProxy;
+    }
+
+    public String gettProxyPwd() {
+      return tProxyPwd;
+    }
+
+    public String gettProxyUsr() {
+      return tProxyUsr;
+    }
+    
+    
+
     @Override
     public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
       JSONObject config = json.getJSONObject("telegram");
       this.botToken = config.getString("botToken");
+      this.tProxy = config.getString("tProxy");
+      this.tProxyUsr = config.getString("tProxyUsr");
+      this.tProxyPwd = config.getString("tProxyPwd");
       save();
       return true;
     }

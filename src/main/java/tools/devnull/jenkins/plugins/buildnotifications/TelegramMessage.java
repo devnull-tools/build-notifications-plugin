@@ -32,6 +32,10 @@ import org.apache.commons.httpclient.methods.PostMethod;
 
 import java.io.IOException;
 import java.util.logging.Logger;
+import org.apache.commons.httpclient.Credentials;
+import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.auth.AuthScope;
+import org.apache.commons.httpclient.methods.GetMethod;
 
 /**
  * A class that represents a Telegram message
@@ -44,6 +48,9 @@ public class TelegramMessage implements Message {
 
   private final String botToken;
   private final String chatIds;
+  private final String tProxy;
+  private final String tProxyUsr;
+  private final String tProxyPwd;
 
   private String extraMessage;
   private String content;
@@ -51,16 +58,25 @@ public class TelegramMessage implements Message {
   private String url;
   private String urlTitle;
 
+  public TelegramMessage(String botToken, String chatIds, String extraMessage,
+           String tProxy, String tProxyUsr, String tProxyPwd) {
+    LOGGER.info("TelegramMessage()");
+    this.botToken = botToken;
+    this.chatIds = chatIds;
+    this.extraMessage = extraMessage;
+    this.tProxy = tProxy;
+    this.tProxyUsr = tProxyUsr;
+    this.tProxyPwd = tProxyPwd;
+  }
+
   /**
    * Creates a new Telegram message based on the given parameters
    *
    * @param botToken the bot token
-   * @param chatIds  the target ids separated by commas (a group conversation id or a contact id)
+   * @param chatIds the target ids separated by commas (a group conversation id or a contact id)
    */
   public TelegramMessage(String botToken, String chatIds, String extraMessage) {
-    this.botToken = botToken;
-    this.chatIds = chatIds;
-    this.extraMessage = extraMessage;
+    this(botToken, chatIds, extraMessage, null, null, null);
   }
 
   @Override
@@ -97,35 +113,45 @@ public class TelegramMessage implements Message {
   public void send() {
     String[] ids = chatIds.split("\\s*,\\s*");
     HttpClient client = new HttpClient();
+    // set proxy 
+    if (null != tProxy) {
+      String[] split = tProxy.split(":");
+      if (split.length == 2) {
+        LOGGER.info("Try send via proxy " + tProxy);
+        client.getHostConfiguration().setProxy(split[0], Integer.parseInt(split[1]));
+        if (null != tProxyUsr && null != tProxyPwd) {
+          Credentials credentials = new UsernamePasswordCredentials(tProxyUsr, tProxyPwd);
+          client.getState().setProxyCredentials(AuthScope.ANY, credentials);
+        }
+      }
+    }
+
     for (String chatId : ids) {
       PostMethod post = new PostMethod(String.format(
-          "https://api.telegram.org/bot%s/sendMessage",
-          botToken
+              "https://api.telegram.org/bot%s/sendMessage",
+              botToken
       ));
-
-      post.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
-
+      post.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
       post.setRequestBody(new NameValuePair[]{
-          new NameValuePair("chat_id", chatId),
-          new NameValuePair("text", getMessage())
+        new NameValuePair("chat_id", chatId),
+        new NameValuePair("text", getMessage())
       });
       try {
-        client.executeMethod(post);
+        LOGGER.info("post result=" + client.executeMethod(post));
       } catch (IOException e) {
-        LOGGER.severe("Error while sending notification: " + e.getMessage());
-        e.printStackTrace();
+        LOGGER.warning("Error while sending notification: " + e.getMessage());
       }
     }
   }
 
   private String getMessage() {
     return String.format(
-        "%s%n%n%s%n%n%s <%s>%n%n%s",
-        title,
-        content,
-        urlTitle,
-        url,
-        extraMessage
+            "%s%n%n%s%n%n%s <%s>%n%n%s",
+            title,
+            content,
+            urlTitle,
+            url,
+            extraMessage
     );
   }
 
