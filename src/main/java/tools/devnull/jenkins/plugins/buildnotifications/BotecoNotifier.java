@@ -60,6 +60,9 @@ public class BotecoNotifier extends BaseNotifier {
 
   @Override
   protected Message createMessage(String target, AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) {
+    if(null == target){
+      return null;
+    }
     BotecoDescriptor descriptor = (BotecoDescriptor) getDescriptor();
     return new BotecoMessage(target, descriptor.endpoint, replaceEnvString(build, getExtraMessage()));
   }

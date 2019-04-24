@@ -94,9 +94,11 @@ public class SlackMessage implements Message {
     // Not possible with Slack
   }
 
-  public void send() {
+  @Override
+  public boolean send() {
     String[] ids = channelIds.split("\\s*,\\s*");
     HttpClient client = new HttpClient();
+    boolean result = true;
     for (String channelId : ids) {
       PostMethod post = new PostMethod(
           "https://slack.com/api/chat.postMessage"
@@ -114,9 +116,10 @@ public class SlackMessage implements Message {
         client.executeMethod(post);
       } catch (IOException e) {
         LOGGER.severe("Error while sending notification: " + e.getMessage());
-        e.printStackTrace();
+        result = false;
       }
     }
+    return result;
   }
 
   private String getMessage() {

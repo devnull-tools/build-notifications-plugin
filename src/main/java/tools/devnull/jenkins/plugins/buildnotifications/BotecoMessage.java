@@ -92,7 +92,7 @@ public class BotecoMessage implements Message {
   }
 
   @Override
-  public void send() {
+  public boolean send() {
     HttpClient client = new HttpClient();
     PostMethod post = new PostMethod(endpoint);
     post.setRequestHeader("Content-Type", "application/json; charset=utf-8");
@@ -105,10 +105,12 @@ public class BotecoMessage implements Message {
       post.setRequestEntity(new StringRequestEntity(JSONObject.fromObject(values).toString(),
           "application/json", "UTF-8"));
       client.executeMethod(post);
+      return true;
     } catch (IOException e) {
       LOGGER.severe("Error while sending notification: " + e.getMessage());
       e.printStackTrace();
     }
+    return false;
   }
 
 }

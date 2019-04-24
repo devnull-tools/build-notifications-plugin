@@ -74,6 +74,6 @@ public interface Message {
   /**
    * Sends the message
    */
-  void send();
+  boolean send();
 
 }

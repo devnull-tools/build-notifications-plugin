@@ -98,7 +98,7 @@ public class PushoverMessage implements Message {
   }
 
   @Override
-  public void send() {
+  public boolean send() {
     try {
     HttpClient client = new HttpClient();
     PostMethod post = new PostMethod("https://api.pushover.net/1/messages.json");
@@ -106,10 +106,12 @@ public class PushoverMessage implements Message {
           "&title=" + encode(title) + "&priority=" + priority + "&url=" + url + "&url_title=" + urlTitle;
       post.setRequestEntity(new StringRequestEntity(data, "application/x-www-form-urlencoded", "UTF-8"));
       client.executeMethod(post);
+      return true;
     } catch (IOException e) {
       LOGGER.severe("Error while sending notification: " + e.getMessage());
       e.printStackTrace();
     }
+    return false;
   }
 
   private String encode(String value) throws UnsupportedEncodingException {

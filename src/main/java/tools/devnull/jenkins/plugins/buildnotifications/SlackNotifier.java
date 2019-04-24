@@ -60,6 +60,9 @@ public class SlackNotifier extends BaseNotifier {
 
   @Override
   protected Message createMessage(String target, AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) {
+    if(null == target){
+      return null;
+    }
     SlackDescriptor descriptor = (SlackDescriptor) getDescriptor();
     return new SlackMessage(descriptor.getBotToken(), target, replaceEnvString(build, getExtraMessage()));
   }

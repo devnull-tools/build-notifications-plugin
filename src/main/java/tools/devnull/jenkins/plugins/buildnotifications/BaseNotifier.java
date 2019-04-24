@@ -161,11 +161,17 @@ public abstract class BaseNotifier extends Notifier {
         target = this.globalTarget;
       }
     }
-    if (target != null && !target.isEmpty()) {
-      Message message = createMessage(target, build, launcher, listener);
+    // allow to send to null target
+    if (target != null && target.trim().isEmpty()) {
+      target = null;
+    }
+    // but check if message was builded
+    Message message = createMessage(target, build, launcher, listener);
+    if(null != message){
       BuildNotifier notifier = createNotifier(build, message);
       notifier.sendNotification();
     }
+
     return true;
   }
 

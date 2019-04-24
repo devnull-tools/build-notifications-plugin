@@ -66,6 +66,9 @@ public class PushoverNotifier extends BaseNotifier {
 
   @Override
   protected Message createMessage(String target, AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) {
+    if(null == target){
+      return null;
+    }
     PushoverDescriptor descriptor = (PushoverDescriptor) getDescriptor();
     return new PushoverMessage(target, descriptor.appToken, replaceEnvString(build, getExtraMessage()));
   }

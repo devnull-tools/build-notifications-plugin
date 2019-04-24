@@ -7,7 +7,12 @@
              description="The bot token from Telegram">
       <f:password field="botToken"/>
     </f:entry>
-    <f:entry title="Proxy" field="tProxy"
+    <f:entry title="Global chat_id" field="tChat_id"
+             description="The bot default chat_id to send messages. Could be overriden in task">
+      <f:textbox field="tChat_id"/>
+    </f:entry>
+  <f:advanced>
+       <f:entry title="Proxy" field="tProxy"
              description="The bot proxy Telegram proxy:port">
       <f:textbox field="tProxy"/>
     </f:entry>
@@ -19,6 +24,9 @@
              description="The bot proxy pwd">
       <f:password field="tProxyPwd"/>
     </f:entry>
-  </f:section>
-
+    <f:validateButton
+      title="${%Test Connection}" progress="${%If succed chat_id will receive }"
+      method="testConnection" with="botToken,tChat_id,tProxy,tProxyUsr,tProxyPwd" />
+  </f:advanced>
+</f:section>
 </j:jelly>

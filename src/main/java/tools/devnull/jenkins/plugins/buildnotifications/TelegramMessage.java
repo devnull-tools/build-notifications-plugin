@@ -51,6 +51,7 @@ public class TelegramMessage implements Message {
   private final String tProxy;
   private final String tProxyUsr;
   private final String tProxyPwd;
+  
 
   private String extraMessage;
   private String content;
@@ -110,10 +111,11 @@ public class TelegramMessage implements Message {
     // Not possible with Telegram
   }
 
-  public void send() {
+  public boolean send() {
     String[] ids = chatIds.split("\\s*,\\s*");
     HttpClient client = new HttpClient();
     // set proxy 
+    boolean result = true;
     if (null != tProxy) {
       String[] split = tProxy.split(":");
       if (split.length == 2) {
@@ -137,11 +139,14 @@ public class TelegramMessage implements Message {
         new NameValuePair("text", getMessage())
       });
       try {
+        LOGGER.info("Sending [" + getMessage() + "] to chat_id=["+chatId+"]");
         LOGGER.info("post result=" + client.executeMethod(post));
       } catch (IOException e) {
+        result = false;
         LOGGER.warning("Error while sending notification: " + e.getMessage());
       }
     }
+    return result;
   }
 
   private String getMessage() {
